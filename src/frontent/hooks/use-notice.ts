@@ -54,7 +54,7 @@ export function useGroupNotices() {
   const fetchData = React.useCallback(async () => {
     try {
       dispatch({ type: 'FETCH_START' })
-      const res = await fetch('http://localhost:3000/groupnotices', {
+      const res = await fetch('http://localhost:3001/groupnotices', {
         cache: 'no-store',
       })
       if (!res.ok) {

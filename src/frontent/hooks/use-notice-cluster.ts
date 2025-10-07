@@ -54,7 +54,7 @@ export function useClusterNotices(cluster: number | string) {
   const fetchData = React.useCallback(async () => {
     try {
       dispatch({ type: 'FETCH_START' })
-      const res = await fetch(`http://localhost:3000/groupnotices/${cluster}`, {
+      const res = await fetch(`http://localhost:3001/groupnotices/${cluster}`, {
         cache: 'no-store',
       })
       if (!res.ok) {
