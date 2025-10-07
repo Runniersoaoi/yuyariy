@@ -9,7 +9,7 @@ dotenv.config();
 const app = express()
 app.use(cors())
 app.use(cors({
-  origin: "http://localhost:3000"
+  origin: "https://yuyariy-frontend-production.up.railway.app/"
 }))
 const PORT = process.env.PORT || 3001;
 
