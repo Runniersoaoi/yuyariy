@@ -9,9 +9,9 @@ dotenv.config();
 const app = express()
 app.use(cors())
 app.use(cors({
-  origin: "https://yuyariy-frontend.vercel.app"
+  origin: "http://localhost:3000"
 }))
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // ===== CONFIG MONGO =====
 const MONGO_URI = process.env.MONGO_URI; // tu cadena de conexión
