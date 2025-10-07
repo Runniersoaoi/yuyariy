@@ -27,6 +27,6 @@ jobs:
 
       - name: Build & Push Frontend Image
         run: |
-          cd src/frontend
+          cd src/frontent
           docker build -t ${{ secrets.DOCKER_USERNAME }}/yuyariy-frontend:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/yuyariy-frontend:latest
