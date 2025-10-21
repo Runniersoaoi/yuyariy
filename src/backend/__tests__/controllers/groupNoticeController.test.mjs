@@ -1,16 +1,12 @@
-// __tests__/controllers/groupNoticeController.test.mjs
 import { jest, test, expect } from '@jest/globals';
 
-// ✅ Mock del modelo (usa la extensión real .mjs)
 jest.unstable_mockModule('../../models/groupNoticeModel.js', () => ({
   getAllNotices: jest.fn().mockResolvedValue([{ title: 'hola' }]),
   getNoticesByCluster: jest.fn().mockResolvedValue([])
 }));
 
-// ✅ Importa después de definir el mock
 const { getGroupNotices, getGroupNoticesByCluster } = await import('../../controllers/groupNoticeController.js');
 
-// 🔧 Mock del objeto response de Express
 function mockRes() {
   const res = {};
   res.status = jest.fn().mockReturnValue(res);
