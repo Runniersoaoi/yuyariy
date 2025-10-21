@@ -1,0 +1,34 @@
+1. CREACIÓN DE USUARIO
+
+Descripción:
+Este comando prueba el endpoint de registro de usuarios tradicionales (/users/auth/register). Envía el nombre, correo y contraseña para crear un nuevo usuario. Verifica que el servidor responda con los datos del usuario y un token JWT que confirma el registro exitoso.
+
+Comando:
+
+curl -X POST http://localhost:3001/users/auth/register \
+
+-H "Content-Type: application/json" \
+
+-d '{
+
+  "name": "Cristian Dominguez",
+
+  "email": "cris@example.com",
+
+  "password": "123456"
+
+}'
+
+Respuesta esperada: 
+
+{
+    "message": "Usuario registrado exitosamente",
+    "user": {
+        "name": "Cristian Dominguez",
+        "email": "cris@example.com",
+        "password": "$2b$10$4viR1w8BaNvENvu8Vn7muO9dv0NMeeloxQmBAkdpV.Zb.Wk7cnhnu",
+        "authType": "local",
+        "createdAt": "2025-10-21T20:09:28.046Z",
+        "_id": "68f7e87879928c9b03891150"
+    }
+}

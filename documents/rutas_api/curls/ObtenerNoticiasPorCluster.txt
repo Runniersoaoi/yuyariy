@@ -1,0 +1,62 @@
+4. OBTENER NOTICIAS POR CLUSTER
+
+Descripción:
+Este comando consulta el endpoint /notices/cluster/:clusterId, el cual devuelve las noticias agrupadas o filtradas por un identificador de cluster (temática o categoría). Permite validar la correcta respuesta según el parámetro de ruta.
+
+Comando:
+
+curl -X GET http://localhost:3001/groupnotices/{cluster} \
+
+-H "Accept: application/json"
+
+Resultado esperado:
+
+[[
+    {
+        "_id": "68f3ffe6a3ce7452aed9e4c6",
+        "cluster": 38,
+        "titulo": "Protestas en diversas naciones generan detenciones, luto y actos de violencia militar.",
+        "resumen_general": "En Perú, las protestas contra el gobierno de José Jerí llevaron a la detención de varios manifestantes, incluyendo a un joven con discapacidad, mientras el gobierno declaró luto nacional. En Madagascar, el presidente Andry Rajoelina huyó tras un golpe de Estado, resultando en al menos 22 muertos y condenas internacionales. En México, durante protestas por el undécimo aniversario de la desaparición de 43 normalistas de Ayotzinapa, un grupo atacó un recinto, sin heridos. Los familiares exigen justicia y la presidenta Claudia Sheinbaum pidió la extradición de Tomás Zerón por manipulación de pruebas en el caso.",
+        "resumen_izquierda": "Madagascar enfrenta una crisis institucional tras el golpe de Estado del CAPSAT, motivado por protestas contra la corrupción y la falta de servicios básicos. El presidente Rajoelina, acusado de mala gestión, huyó del país. El CAPSAT, apoyado por la Alta Corte Constitucional, instauró un periodo de transición de dos años. La situación refleja la recurrente inestabilidad política y la pobreza en Madagascar, que, a pesar de ser un productor clave de vainilla, sigue atrapada en desigualdad y desconfianza institucional.",
+        "resumen_centro": "El gobierno peruano ha izado banderas a media asta en señal de luto por las víctimas de la violencia durante las protestas del 15 de octubre en Lima, buscando fomentar la unidad nacional y la reflexión. La Policía Nacional confirmó que el suboficial Luis Magallanes fue responsable de la muerte de Eduardo Ruiz. Además, se han reportado ataques a transportistas y se están llevando a cabo investigaciones y propuestas para mitigar la violencia y apoyar a las víctimas.",
+        "resumen_derecha": null,
+        "elementos": [
+            {
+                "cluster": 38,
+                "link": "https://larepublica.pe/politica/2025/10/17/manifestantes-llevan-detenidos-mas-de-24-horas-entre-ellos-uno-con-discapacidadhnews-213435",
+                "title": "manifestantes-llevan-detenidos-mas-de-24-horas-entre-ellos-uno-con-discapacidadhnews-213435",
+                "content": ". Tras las protestas contra el gobierno de José Jerí el último miércoles de octubre, la Policía Nacional detuvo a personas, de las cuales permanecen privados de su libertad en la División de Asuntos Sociales, en el Rímac, un total de, entre ellos, un joven con discapacidad. Escucha la noticia Texto convertido en audio Ver resumen y puntos destacados de la nota con IA Inteligencia Artificial Únete a nuestro canal de política y economía Este último de iniciales W. H. V de años, se le acusa de lesiones graves contra un policía y otros delitos y su situación es complicada. Hasta lo que se sabe es que ningún familiar habría ido a reclamar por él.",
+                "category": "politica",
+                "creation_date": "18/10/2025",
+                "inclinacion": "centro."
+            },
+            {
+                "cluster": 38,
+                "link": "https://diariocorreo.pe/politica/gobierno-dispone-izado-de-bandera-a-media-asta-por-luto-tras-violencia-en-protestas-noticia/",
+                "title": "gobierno-dispone-izado-de-bandera-a-media-asta-por-luto-tras-violencia-en-protestas-noticia",
+                "content": "Ante los recientes hechos de violencia registrados durante las protestas del último 15 de octubre en Lima, el gobierno a través de la Presidencia del Consejo de Ministros (PCM), dispuso el izado de banderas a media asta en todas las instituciones públicas como señal de luto y pesar nacional. Según el comunicado oficial emitido este viernes 17 de octubre, el Consejo de Ministros, actualmente en sesión permanente, tomó esta decisión como un acto simbólico de solidaridad con las víctimas y sus familias. “El Gobierno del Perú convoca a la unidad nacional y expresa su solidaridad con todos los ciudadanos afectados”, se lee en el documento. Asimismo, en el comunicado el Ejecutivo reafirmó su compromiso de adoptar todas las medidas necesarias para restablecer la paz social y garantizar la seguridad de la población en medio de la crisis. La medida busca también enviar un mensaje de llamado a la calma y la reflexión colectiva frente a los lamentables episodios de violencia que han enlutado al país en los últimos días. | La Presidencia del Consejo de Ministros informa: pic.twitter.com/oaOCTnpzLg — Consejo de Ministros () October 17, 2025 Suboficial Luis Magallanes En la víspera, el comandante general de la PNP, Óscar Arriola, confirmó que el suboficial de tercera Luis Magallanes fue el autor del disparo que provocó la muerte de Eduardo Ruiz durante las protestas realizadas en el Cercado de Lima. En conferencia de prensa, Arriola señaló que el agente identificado pertenece a la Dirección de Investigación Criminal (Dirincri) y aclaró que no forma parte del Grupo Terna. “El autor de ese disparo es el suboficial de tercera Luis Magallanes, pertenecen a la Dirección de Investigación Criminal y no al Grupo Terna”, declaró. A esto se suma que cada día trabajadores del sector transporte son víctimas de la ola de violencia y extorsión, principalmente en la capital. TE PUEDE INTERESAR: Jorge Angulo critica eventual estado de emergencia en Lima y pide reformas reales en la PNP Lurín: Dos muertos y cuatro pasajeros heridos tras ataque a combi Transportistas realizarán hoy apagado de motores simbólico tras ataque a combi Villa El Salvador: Acribillan a mujer tras bajar de mototaxi y dejan una flor junto a cuerpo Sigrid Bazán presenta denuncia constitucional contra José Jerí y dos ministros por muerte de joven Gobierno otorgará apoyo económico a deudos y heridos en protesta del 15 de octubre Fiscalía inicia investigación por muerte de joven Eduardo Ruiz en protestas Proponen permitir que víctimas de extorsión deduzcan esos pagos del Impuesto a la Renta",
+                "category": "politica",
+                "creation_date": "18/10/2025",
+                "inclinacion": "centro"
+            },
+            {
+                "cluster": 38,
+                "link": "https://diariocorreo.pe/mundo/golpe-de-estado-en-madagascar-militares-derrocan-al-presidente-andry-rajoelina-tras-semanas-de-protestas-noticia/",
+                "title": "golpe-de-estado-en-madagascar-militares-derrocan-al-presidente-andry-rajoelina-tras-semanas-de-protestas-noticia",
+                "content": "Madagascar vive una nueva ruptura institucional tras el golpe de Estado protagonizado por el Cuerpo de Administración de Personal y Servicios del Ejército de Tierra (CAPSAT) , una unidad de élite que anunció este martes la toma del poder en respuesta a la ola de protestas que sacude al país desde el 25 de septiembre. El presidente Andry Rajoelina , en el cargo desde 2019, habría abandonado el país luego de que las manifestaciones —lideradas por miles de jóvenes de la llamada Generación Z — se transformaran en una revuelta nacional contra su gestión. En un video difundido el lunes, Rajoelina aseguró que se encontraba en “un lugar seguro” para preservar su integridad física, aunque medios locales y Radio France Internationale informan que huyó a bordo de un avión militar francés rumbo a Dubái , tras pasar por la Isla de la Reunión. De las protestas a la asonada militar El detonante de la crisis fueron los constantes cortes de electricidad y agua , que generaron el malestar de la población. Las protestas derivaron en denuncias de corrupción, nepotismo y malversación de fondos públicos contra el Gobierno. La represión policial dejó al menos 22 muertos y cientos de heridos , según cifras de Naciones Unidas. En ese contexto, el CAPSAT anunció el fin de la subordinación al Ejecutivo y ordenó no disparar contra civiles , declarando tener el control de las Fuerzas Armadas. Este martes, el coronel Michael Randrianirina , líder del CAPSAT, anunció la suspensión de la Constitución y la instauración de un periodo de transición de dos años , asumiendo oficialmente las funciones de jefe de Estado, con el respaldo de la Alta Corte Constitucional . “Vamos a asumir nuestras responsabilidades, vamos a tomar el poder”, declaró Randrianirina desde el palacio presidencial de Ambotsirohitra. Crisis política y llamado internacional al diálogo Antes de su derrocamiento, Rajoelina había intentado disolver la Asamblea Nacional , medida que fue declarada inválida por el Parlamento, que respondió votando su destitución . El golpe ha sido condenado por la Unión Africana y por potencias regionales como Sudáfrica , que instaron al restablecimiento del orden constitucional y al diálogo político. Sin embargo, los esfuerzos diplomáticos no lograron frenar la asonada. Un país entre la pobreza y la inestabilidad Madagascar, considerada una de las naciones más pobres del mundo, atraviesa una crisis política recurrente. El CAPSAT ya había liderado un golpe similar en 2009 , que permitió al entonces joven Rajoelina llegar por primera vez al poder. Hoy, 16 años después, la historia parece repetirse en esta isla del océano Índico, que, pese a ser el principal productor mundial de vainilla , sigue atrapada entre la desigualdad, la inestabilidad y la desconfianza en sus instituciones.",
+                "category": "mundo",
+                "creation_date": "18/10/2025",
+                "inclinacion": "izquierda"
+            },
+            {
+                "cluster": 38,
+                "link": "https://diariocorreo.pe/mundo/mexico-atacan-cuartel-militar-en-protestas-por-aniversario-del-caso-ayotzinapa-noticia/",
+                "title": "mexico-atacan-cuartel-militar-en-protestas-por-aniversario-del-caso-ayotzinapa-noticia",
+                "content": "Un grupo de manifestantes arremetió este jueves contra un cuartel militar en Ciudad de México, en el marco de las protestas por el undécimo aniversario de la desaparición de los 43 normalistas de Ayotzinapa. Los atacantes usaron un camión para derribar la puerta del recinto y luego lo incendiaron, sin dejar heridos ni detenidos. “Queremos saber dónde están, qué pasó con ellos, si están vivos o muertos” , expresó Melitón Ortega, tío de uno de los jóvenes desaparecidos, al justificar la acción. Los familiares acusan que el Ejército no ha entregado información clave de aquella noche de 2014. En medio de la jornada, los padres remarcaron: “El dolor no basta, lo que pedimos es verdad y justicia”. Además, convocaron a una nueva marcha hacia el Zócalo capitalino como parte de sus reclamos. Por su parte, la presidenta Claudia Sheinbaum reiteró la exigencia de extradición de Tomás Zerón, exdirector de la Agencia de Investigación Criminal, acusado de manipular pruebas en el caso. Te puede interesar Fin de la fuga: Pese cambios en su apariencia para evitar su captura, ‘El Monstruo’ cayó en Paraguay Alias “El Monstruo”: los delitos que lo llevarían a más de 35 años de prisión Ministro Juan Santiváñez: Por delitos atribuidos, Erick Moreno podría ser condenado a “cadena perpetua” ‘El Monstruo’ revela por qué se fugó de Perú: “Estoy corriendo de mis enemigos” (VIDEO) Accidente en Av. Salaverry deja cinco heridos y caos vehicular en Jesús María Alias “El Monstruo” podría ser trasladado a la Base Naval del Callao por su alta peligrosidad",
+                "category": "mundo",
+                "creation_date": "18/10/2025",
+                "inclinacion": "izquierda"
+            }
+        ]
+    }
+]

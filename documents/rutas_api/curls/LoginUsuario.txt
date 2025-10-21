@@ -1,0 +1,32 @@
+2. LOGIN DE USUARIO
+
+Descripción:
+Este comando prueba el endpoint de autenticación tradicional (/users/auth/login). Envía las credenciales registradas previamente para obtener un token JWT válido que se usará en futuras peticiones protegidas.
+
+Comando:
+
+curl -X POST http://localhost:3001/users/auth/login \
+
+-H "Content-Type: application/json" \
+
+-d '{
+
+  "email": "matias@example.com",
+
+  "password": "123456"
+
+}'
+
+Respuesta esperada
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGlhc0BleGFtcGxlLmNvbSIsIm5hbWUiOiJNYXTDrWFzIFp1cmllbCIsImlhdCI6MTc2MTA3NzM0NCwiZXhwIjoxNzYxNjgyMTQ0fQ.sXQ1CSTczXItZ--klQgFq9JIrfOmasnaddKUanaL4XM",
+    "user": {
+        "_id": "68f7b8282426b3bf768621ff",
+        "name": "Matías Zuriel",
+        "email": "matias@example.com",
+        "password": "$2b$10$uYTqVXqIKAGhMOk7M.TGJeJgOu7Qk1uk.D9fKw.s0AECHCOXYQlTK",
+        "authType": "local",
+        "createdAt": "2025-10-21T16:43:20.879Z"
+    }
+}
