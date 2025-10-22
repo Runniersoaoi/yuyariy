@@ -1,0 +1,4 @@
+yuyariy/documents/rutas_api/db.json
+
+src/backend/__tests__/routes/groupNoticeRoutes.test.mjs
+src/backend/__tests__/routes/userRoutes.test.mjs
