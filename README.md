@@ -1,4 +1,4 @@
-# 🌐 Yuyariy – Plataforma de Lectura Crítica y Comparación de Noticias
+# 🌐 Yuyariy – Plataforma de Lectura Crítica y Compara de Noticias
 
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
