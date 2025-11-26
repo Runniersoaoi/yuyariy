@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "https://yuyariy-frontend-production.up.railway.app",
+  origin: "http://localhost:3000",
   credentials: true,
 }));
 app.use(express.json());
@@ -46,6 +46,28 @@ app.get("/groupnotices/:cluster", async (req, res) => {
     res.json(docs);
   } catch (err) {
     console.error("❌ Error al obtener documentos por cluster:", err);
+    res.status(500).json({ error: "Error al obtener documentos" });
+  }
+});
+
+app.get("/groupnotices/category/:category", async (req, res) => {
+  try {
+    const db = req.app.locals.db;
+    const { category } = req.params;
+    const collection = db.collection(COLLECTION_NAME);
+    const docs = await collection
+      .find({
+        $expr: { $eq: [{ $arrayElemAt: ["$elementos.category", 0] }, category] },
+      })
+      .toArray();
+
+    if (!docs || docs.length === 0) {
+      return res.status(404).json({ message: `No se encontraron documentos para la categoria ${cluster}` });
+    }
+
+    res.json(docs);
+  } catch (err) {
+    console.error("❌ Error al obtener documentos por categoria:", err);
     res.status(500).json({ error: "Error al obtener documentos" });
   }
 });

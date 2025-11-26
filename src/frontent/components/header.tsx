@@ -1,22 +1,25 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import Link from "next/link";
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const categories = [
   { name: "Mundo", href: "/category/mundo" },
   { name: "Politica", href: "/category/politica" },
   { name: "Economia", href: "/category/economia" },
-]
+];
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="font-serif text-3xl font-bold tracking-tight text-foreground">
+          <Link
+            href="/"
+            className="font-serif text-3xl font-bold tracking-tight text-foreground"
+          >
             Yuyariy
           </Link>
 
@@ -58,5 +61,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

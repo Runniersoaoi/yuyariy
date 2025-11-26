@@ -1,62 +1,49 @@
-import { Header } from "@/components/header"
-import { ArticleCard } from "@/components/article-card"
-import { ChevronRight } from "lucide-react"
-import Link from "next/link"
+"use client";
 
-const categoryArticles = {
-  technology: [
-    {
-      id: "3",
-      title: "AI Revolution Transforms Healthcare Industry",
-      excerpt:
-        "Machine learning algorithms are now assisting doctors in diagnosing diseases with unprecedented accuracy, marking a new era in medical technology.",
-      category: "Technology",
-      date: "Mar 14, 2025",
-      image: "/medical-technology-ai.jpg",
-    },
-    {
-      id: "7",
-      title: "Tech Giants Face New Regulatory Challenges",
-      excerpt:
-        "Governments worldwide propose stricter oversight of data privacy and market competition in the rapidly evolving digital age.",
-      category: "Technology",
-      date: "Mar 12, 2025",
-      image: "/technology-office-modern.jpg",
-    },
-    {
-      id: "8",
-      title: "Quantum Computing Breakthrough Announced",
-      excerpt:
-        "Researchers achieve major milestone in quantum error correction, bringing practical quantum computers closer to reality.",
-      category: "Technology",
-      date: "Mar 11, 2025",
-      image: "/quantum-computer-lab.jpg",
-    },
-    {
-      id: "9",
-      title: "Cybersecurity Threats Evolve in 2025",
-      excerpt:
-        "Security experts warn of sophisticated new attack vectors as organizations rush to strengthen their digital defenses.",
-      category: "Technology",
-      date: "Mar 10, 2025",
-      image: "/cybersecurity-network.jpg",
-    },
-  ],
-}
+import { Header } from "@/components/header";
+import { ArticleCard } from "@/components/article-card";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { renderMedia } from "@/helpers/renderMedia";
+import { useGroupNotices } from "@/hooks/use-notice";
+import { useCategoryNotices } from "@/hooks/use-notice-category";
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const categoryName = params.slug.charAt(0).toUpperCase() + params.slug.slice(1)
-  const articles = categoryArticles[params.slug as keyof typeof categoryArticles] || []
+  const categoryName =
+    params.slug.charAt(0).toUpperCase() + params.slug.slice(1);
 
+  const {
+    data: articles,
+    loading,
+    error,
+  } = useCategoryNotices(categoryName.toLowerCase());
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-lg text-muted-foreground">
+        Cargando artículos...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        Ocurrió un error al cargar los artículos.
+      </div>
+    );
+  }
+
+  // Filtrar artículos por categoría (ignorando mayúsculas/minúsculas)
   return (
     <div className="min-h-screen">
       <Header />
 
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
           <Link href="/" className="hover:text-foreground transition-colors">
-            Home
+            Inicio
           </Link>
           <ChevronRight className="h-4 w-4" />
           <span className="text-foreground font-medium">{categoryName}</span>
@@ -64,19 +51,37 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
 
         {/* Category Header */}
         <div className="mb-12">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-balance">{categoryName}</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-balance">
+            {categoryName}
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            Mantente informado con las últimas noticias, análisis y perspectivas de {categoryName.toLowerCase()} a nivel global.
+            Mantente informado con las últimas noticias, análisis y perspectivas
+            de {categoryName.toLowerCase()} a nivel global.
           </p>
         </div>
 
         {/* Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          {articles.map((article) => (
-            <ArticleCard key={article.id} {...article} />
-          ))}
-        </div>
+        {articles.length === 0 ? (
+          <p className="text-muted-foreground text-center">
+            No hay artículos disponibles para esta categoría.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+            {articles.map((article) => (
+              <ArticleCard
+                id={article.cluster.toString()}
+                title={article.titulo}
+                content={article.resumen_general}
+                excerpt={article.resumen_centro}
+                category={article.elementos[0].category}
+                date={article.elementos[0].creation_date}
+                media={renderMedia(article.elementos[0].image)}
+                featured
+              />
+            ))}
+          </div>
+        )}
       </main>
     </div>
-  )
+  );
 }

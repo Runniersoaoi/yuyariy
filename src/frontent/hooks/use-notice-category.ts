@@ -53,15 +53,18 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export function useGroupNotices() {
+export function useCategoryNotices(categoryName: string) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const fetchData = React.useCallback(async () => {
     try {
       dispatch({ type: "FETCH_START" });
-      const res = await fetch("http://localhost:3001/groupnotices", {
-        cache: "no-store",
-      });
+      const res = await fetch(
+        `http://localhost:3001/groupnotices/category/${categoryName}`,
+        {
+          cache: "no-store",
+        }
+      );
       if (!res.ok) {
         throw new Error(`Error HTTP: ${res.status}`);
       }
@@ -70,7 +73,7 @@ export function useGroupNotices() {
     } catch (err: any) {
       dispatch({ type: "FETCH_ERROR", payload: err.message });
     }
-  }, []);
+  }, [categoryName]);
 
   React.useEffect(() => {
     fetchData();

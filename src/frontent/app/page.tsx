@@ -1,18 +1,19 @@
-'use client'
+"use client";
 
-import { Header } from "@/components/header"
-import { ArticleCard } from "@/components/article-card"
-import { useGroupNotices } from "@/hooks/use-notice"
+import { Header } from "@/components/header";
+import { ArticleCard } from "@/components/article-card";
+import { useGroupNotices } from "@/hooks/use-notice";
+import { renderMedia } from "@/helpers/renderMedia";
 
 export default function HomePage() {
-  const { data: articles, loading, error } = useGroupNotices()
+  const { data: articles, loading, error } = useGroupNotices();
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-muted-foreground">Loading articles...</p>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -20,7 +21,7 @@ export default function HomePage() {
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-red-500">Failed to load articles: {error}</p>
       </div>
-    )
+    );
   }
 
   if (!articles || articles.length === 0) {
@@ -28,28 +29,29 @@ export default function HomePage() {
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-muted-foreground">No articles found</p>
       </div>
-    )
+    );
   }
 
   // Tomamos el primero como destacado
-  const featuredArticle = articles[0]
-  const latestArticles = articles.slice(1)
+  const featuredArticle = articles[0];
+  const latestArticles = articles.slice(1);
 
   return (
     <div className="min-h-screen">
       <Header />
 
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Featured Article */}
         {featuredArticle && (
           <section className="mb-16">
             <ArticleCard
               id={featuredArticle.cluster.toString()}
               title={featuredArticle.titulo}
+              content={featuredArticle.resumen_general}
               excerpt={featuredArticle.resumen_centro}
-              category="Politics"
-              date={new Date().toLocaleDateString()}
-              image={featuredArticle.image}
+              category={featuredArticle.elementos[0].category}
+              date={featuredArticle.elementos[0].creation_date}
+              media={renderMedia(featuredArticle.elementos[0].image)}
               featured
             />
           </section>
@@ -63,13 +65,15 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {latestArticles.map((article) => (
               <ArticleCard
-                key={article.cluster}
+                key={article.cluster.toString()}
                 id={article.cluster.toString()}
                 title={article.titulo}
+                content={article.resumen_general}
                 excerpt={article.resumen_centro}
-                category="Politics"
-                date={new Date().toLocaleDateString()}
-                image={article.image}
+                category={article.elementos[0].category}
+                date={article.elementos[0].creation_date}
+                media={renderMedia(article.elementos[0].image)}
+                featured
               />
             ))}
           </div>
@@ -100,5 +104,5 @@ export default function HomePage() {
         </div>
       </footer>
     </div>
-  )
+  );
 }

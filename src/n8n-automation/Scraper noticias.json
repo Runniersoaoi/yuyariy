@@ -2,17 +2,6 @@
   "name": "Scraper noticias",
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -496,
-        -176
-      ],
-      "id": "13918d93-2494-4275-bcea-b5c04aa5f74a",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
       "parameters": {
         "mode": "raw",
         "jsonOutput": "{\n  \"fuentes\": [\n    {\"medio\": \"eltiempo_economia\", \"url\": \"https://eltiempo.pe/categoria/economia/\"},\n    {\"medio\": \"eltiempo_mundo\", \"url\": \"https://eltiempo.pe/categoria/internacional/\"},\n    {\"medio\": \"exitosa_politica\", \"url\": \"https://www.exitosanoticias.pe/politica/\"},\n    {\"medio\": \"exitosa_mundo\", \"url\": \"https://www.exitosanoticias.pe/mundo/\"},\n    {\"medio\": \"panamericana_politica\", \"url\": \"https://panamericana.pe/politica\"},\n    {\"medio\": \"panamericana_economia\", \"url\": \"https://panamericana.pe/tags/econom%C3%ADa\"},\n    {\"medio\": \"panamericana_mundo\", \"url\": \"https://panamericana.pe/internacionales\"},\n    {\"medio\": \"peru21_politica\", \"url\": \"https://peru21.pe/politica/\"},\n    {\"medio\": \"peru21_economia\", \"url\": \"https://peru21.pe/economia/\"},\n    {\"medio\": \"peru21_mundo\", \"url\": \"https://peru21.pe/mundo/\"},\n    {\"medio\": \"comercio_politica\", \"url\": \"https://elcomercio.pe/politica/\"},\n    {\"medio\": \"comercio_mundo\", \"url\": \"https://elcomercio.pe/mundo/\"},\n    {\"medio\": \"comercio_economia\", \"url\": \"https://elcomercio.pe/economia/\"},\n    {\"medio\": \"republica_politica\", \"url\": \"https://larepublica.pe/politica\"},\n    {\"medio\": \"republica_mundo\", \"url\": \"https://larepublica.pe/mundo\"},\n    {\"medio\": \"republica_economia\", \"url\": \"https://larepublica.pe/economia\"},\n    {\"medio\": \"rpp_politica\", \"url\": \"https://rpp.pe/politica?ref=rpp\"},\n    {\"medio\": \"rpp_economia\", \"url\": \"https://rpp.pe/economia?ref=rpp\"},\n    {\"medio\": \"rpp_mundo\", \"url\": \"https://rpp.pe/mundo?ref=rpp\"},\n    {\"medio\": \"diariocorreo_politica\", \"url\": \"https://diariocorreo.pe/politica/\"},\n    {\"medio\": \"diariocorreo_mundo\", \"url\": \"https://diariocorreo.pe/mundo/\"},\n    {\"medio\": \"diariocorreo_economia\", \"url\": \"https://diariocorreo.pe/economia/\"}\n  ]\n}\n\n",
@@ -21,25 +10,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -304,
-        -176
+        1216,
+        352
       ],
       "id": "65a15a94-9e7d-42c3-ad31-37f4d43d8537",
       "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "batchSize": "=1",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        160,
-        -1136
-      ],
-      "id": "9cd96aba-a210-4abf-8ab4-122a4b9927dc",
-      "name": "Loop Over Items"
     },
     {
       "parameters": {
@@ -49,22 +24,22 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -112,
-        -176
+        1392,
+        352
       ],
       "id": "b02467f2-e2b5-4122-903d-e0d112be2856",
       "name": "Split Out"
     },
     {
       "parameters": {
-        "url": "={{ $('Loop Over Items').item.json.url }}",
+        "url": "={{ $json.url }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1760,
-        -128
+        1552,
+        352
       ],
       "id": "babbd40f-cbda-467f-9c26-1244e904cbf6",
       "name": "HTTP Request"
@@ -83,33 +58,9 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "uno",
-                    "operator": {
-                      "type": "string",
-                      "operation": "contains"
-                    },
-                    "id": "31f51d07-e886-4b10-87d3-45a727c9753a"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "uno"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
                     "id": "a5c06fda-f11a-4303-a009-56b186a6581c",
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "eltiempo",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "eltiempo.pe",
                     "operator": {
                       "type": "string",
                       "operation": "contains"
@@ -132,8 +83,8 @@
                 "conditions": [
                   {
                     "id": "80a8c589-f25d-4f07-adcd-9a2e7c2c40dd",
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "exitosa",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "exitosanoticias.pe",
                     "operator": {
                       "type": "string",
                       "operation": "contains"
@@ -156,8 +107,8 @@
                 "conditions": [
                   {
                     "id": "acc09819-9415-41dd-8ab0-321dbcc7031e",
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "panamericana",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "panamericana.pe",
                     "operator": {
                       "type": "string",
                       "operation": "contains"
@@ -180,8 +131,8 @@
                 "conditions": [
                   {
                     "id": "19d11a5d-5dcd-487d-9891-4846e73c112a",
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "peru21",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "peru21.pe",
                     "operator": {
                       "type": "string",
                       "operation": "contains"
@@ -204,8 +155,8 @@
                 "conditions": [
                   {
                     "id": "d062d45e-4285-4e3d-95d9-3e8c031979c4",
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "comercio",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "cdna.elcomercio.pe",
                     "operator": {
                       "type": "string",
                       "operation": "contains"
@@ -228,8 +179,8 @@
                 "conditions": [
                   {
                     "id": "5eb94f9f-969e-41fe-81ee-b84354e5409a",
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "republica",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "larepublica.pe",
                     "operator": {
                       "type": "string",
                       "operation": "contains"
@@ -252,8 +203,8 @@
                 "conditions": [
                   {
                     "id": "3b7920ba-e3cf-4ff1-a85e-22e309c1c235",
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "rpp",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "rpp.pe",
                     "operator": {
                       "type": "string",
                       "operation": "contains"
@@ -276,8 +227,8 @@
                 "conditions": [
                   {
                     "id": "c4728207-d600-4f50-b6a4-1cdb98cf76e8",
-                    "leftValue": "={{ $('Loop Over Items').item.json.medio }}",
-                    "rightValue": "diariocorreo",
+                    "leftValue": "={{ $json.data }}",
+                    "rightValue": "cdna.diariocorreo.pe",
                     "operator": {
                       "type": "string",
                       "operation": "contains"
@@ -296,11 +247,12 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        1952,
-        -208
+        1792,
+        256
       ],
       "id": "2709d174-3fcf-4178-96c5-04c4bf860859",
-      "name": "Switch"
+      "name": "Switch",
+      "alwaysOutputData": false
     },
     {
       "parameters": {
@@ -309,8 +261,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4448,
-        -832
+        2352,
+        -464
       ],
       "id": "59d54646-2a11-435c-a9c4-588e10acbf24",
       "name": "Diario ElTiempo"
@@ -322,8 +274,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4448,
-        -592
+        2352,
+        -224
       ],
       "id": "52356f52-3e9b-4502-af74-5d8ed1eba401",
       "name": "Diario Exitosa"
@@ -335,8 +287,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4448,
-        -368
+        2352,
+        0
       ],
       "id": "768b01bc-8e17-42f9-89eb-24cb49e75a58",
       "name": "Diario Panamericana"
@@ -348,21 +300,21 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4464,
-        128
+        2368,
+        496
       ],
       "id": "e3bc1578-fa7c-4682-8d2f-0e05c14be475",
       "name": "Diario Comercio"
     },
     {
       "parameters": {
-        "jsCode": "// Function Node (n8n) - extrae hrefs desde item.json.data y aplica filtros solicitados\nconst links = new Set();\nconst hrefRegex = /href\\s*=\\s*[\"']([^\"']+)[\"']/gi;\nconst excludePatterns = [\n  'php','css','png','jpg','fonts','feed','comments','/categoria/','cdn',\n  'googletagmanager','zapwp','wp','epaper','/autor/','facebook','//x.com/',\n  'instagram','linkedin','tiktok','youtube'\n];\n\nconst baseUrl = 'https://peru21.pe';\n\nfor (const item of $input.all()) {\n  const html = item.json.data || '';\n  let match;\n  while ((match = hrefRegex.exec(html)) !== null) {\n    let url = match[1].trim();\n    if (!url) continue;\n\n    // Excluir exactamente \"/\" y rutas específicas\n    const excludedExact = [\n      '/', \n      `${baseUrl}/mundo`, `${baseUrl}/economia`,\n      '/ultimas-noticias/','/peru21tv/','/opinion/','/politica/','/investigacion/',\n      '/economia/','/lima/','/peru/','/celebridades/','/cultura/','/mundo/',\n      '/deportes/','/espectaculos/','/ciencia/','/tecnologia/','/gastronomia/',\n      '/cheka/','/videojuegos/','/vida-animal/','/policiales/','/redes-sociales/',\n      '/el-otorongo/','/fotogalerias/','/videos/','/politica/2/','/economia/2/',\n      '/mundo/2/','/quienes-somos',\n      `${baseUrl}/noticias/erick-el-monstruo-moreno/`,\n      `${baseUrl}/noticias/premios-summum/`,\n      `${baseUrl}/noticias/afp/`,\n      `${baseUrl}/noticias/papa-leon-xiv/`,\n      `${baseUrl}/noticias/juan-jose-santivanez/`,\n      `${baseUrl}/noticias/pienso-luego-voto/`,\n      `${baseUrl}/politica`\n    ];\n    if (excludedExact.includes(url)) continue;\n\n    // Excluir anclas y esquemas no HTTP útiles\n    if (\n      url.startsWith('#') || \n      url.toLowerCase().startsWith('javascript:') ||\n      url.toLowerCase().startsWith('mailto:') || \n      url.toLowerCase().startsWith('tel:')\n    ) continue;\n\n    // Excluir si contiene cualquiera de los patrones (case-insensitive)\n    const lower = url.toLowerCase();\n    if (excludePatterns.some(p => lower.includes(p))) continue;\n\n    // Normalizar: añadir siempre el baseUrl\n    if (url.startsWith('/')) {\n      url = baseUrl + url;\n    } else if (!url.startsWith('http')) {\n      url = baseUrl + '/' + url;\n    } else if (url.startsWith(baseUrl)) {\n      // ya está completo, se deja igual\n    } else {\n      // si es un dominio externo → igual se antepone baseUrl\n      url = baseUrl + url;\n    }\n\n    links.add(url);\n  }\n}\n\n// Retornar links únicos como items para n8n\nreturn Array.from(links).map(link => ({ json: { link } }));\n"
+        "jsCode": "// Function Node (n8n) - extrae hrefs desde item.json.data y aplica filtros solicitados\nconst links = new Set();\nconst hrefRegex = /href\\s*=\\s*[\"']([^\"']+)[\"']/gi;\nconst excludePatterns = [\n  'php','css','png','jpg','fonts','feed','comments','/categoria/','cdn',\n  'googletagmanager','zapwp','wp','epaper','/autor/','facebook','//x.com/',\n  'instagram','linkedin','tiktok','youtube'\n];\n\nconst baseUrl = 'https://peru21.pe';\n\nfor (const item of $input.all()) {\n  const html = item.json.data || '';\n  let match;\n\n  while ((match = hrefRegex.exec(html)) !== null) {\n    let url = match[1].trim();\n    if (!url) continue;\n\n    // Excluir exactamente \"/\" (comparación exacta)\n    if (url === '/') continue;\n    if (url === 'https://peru21.pe/mundo') continue;\n    if (url === 'https://peru21.pe/economia') continue;\n    if (url === '/ultimas-noticias/') continue;\n    if (url === '/peru21tv/') continue;\n    if (url === '/opinion/') continue;\n    if (url === '/politica/') continue;\n    if (url === '/investigacion/') continue;\n    if (url === '/economia/') continue;\n    if (url === '/lima/') continue;\n    if (url === '/peru/') continue;\n    if (url === '/celebridades/') continue;\n    if (url === '/cultura/') continue;\n    if (url === '/mundo/') continue;\n    if (url === '/deportes/') continue;\n    if (url === '/espectaculos/') continue;\n    if (url === '/ciencia/') continue;\n    if (url === '/tecnologia/') continue;\n    if (url === '/gastronomia/') continue;\n    if (url === '/cheka/') continue;\n    if (url === '/videojuegos/') continue;\n    if (url === '/vida-animal/') continue;\n    if (url === '/policiales/') continue;\n    if (url === '/redes-sociales/') continue;\n    if (url === '/el-otorongo/') continue;\n    if (url === '/fotogalerias/') continue;\n    if (url === '/videos/') continue;\n    if (url === 'https://peru21.pe/noticias/erick-el-monstruo-moreno/') continue;\n    if (url === 'https://peru21.pe/noticias/premios-summum/') continue;\n    if (url === 'https://peru21.pe/noticias/afp/') continue;\n    if (url === 'https://peru21.pe/noticias/papa-leon-xiv/') continue;\n    if (url === 'https://peru21.pe/noticias/juan-jose-santivanez/') continue;\n    if (url === 'https://peru21.pe/noticias/pienso-luego-voto/') continue;\n    if (url === 'https://peru21.pe/politica') continue;\n    if (url === '/politica/2/') continue;\n    if (url === '/economia/2/') continue;\n    if (url === '/mundo/2/') continue;\n    if (url === '/quienes-somos') continue;\n\n    // Excluir anclas y esquemas no HTTP útiles\n    if (\n      url.startsWith('#') ||\n      url.toLowerCase().startsWith('javascript:') ||\n      url.toLowerCase().startsWith('mailto:') ||\n      url.toLowerCase().startsWith('tel:')\n    ) continue;\n\n    // Excluir si contiene cualquiera de los patrones (case-insensitive)\n    const lower = url.toLowerCase();\n    if (excludePatterns.some(p => lower.includes(p))) continue;\n\n    // ✅ Asegurar que todos los links tengan la base URL\n    if (!url.startsWith('http')) {\n      if (url.startsWith('/')) {\n        url = baseUrl + url;\n      } else {\n        url = baseUrl + '/' + url;\n      }\n    }\n\n    links.add(url);\n  }\n}\n\n// Retornar links únicos como items para n8n\nreturn Array.from(links).map(link => ({ json: { link } }));\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4448,
-        -128
+        2352,
+        240
       ],
       "id": "ecba7508-d307-4ac6-88ae-4c1666e12577",
       "name": "Diario Peru 21"
@@ -374,21 +326,21 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4464,
-        384
+        2368,
+        752
       ],
       "id": "0db3bf70-b31d-4fdc-bc97-00b8a7516aa7",
       "name": "Diario La Republica"
     },
     {
       "parameters": {
-        "jsCode": "// Function Node (n8n) - extrae hrefs desde item.json.data y aplica filtros solicitados\nconst links = new Set();\nconst hrefRegex = /href\\s*=\\s*[\"']([^\"']+)[\"']/gi;\nconst excludePatterns = ['php','css','png','jpg','fonts','feed','comments','/categoria/','cdn','googletagmanager','zapwp','wp','rss','s2','md1','tag','gstatic','doubleclick','cm','securepubads','futbol', 'cultura','tecnologia','videojuegos','vital','ciencia','usa','videos','columnistas','rotafono','autor','audioplayer','tv','tiktok','facebook','twitter','youtube','whatsapp','multideportes','economia','famosos','cine'];\n\nfor (const item of $input.all()) {\n  const html = item.json.data || '';\n  let match;\n  while ((match = hrefRegex.exec(html)) !== null) {\n    let url = match[1].trim();\n    if (!url) continue;\n\n    // Excluir exactamente \"/\" (comparación exacta)\n    if (url === '/') continue;\n    if (url === 'https://rpp.pe/politica') continue;\n    if (url === '/politica/judiciales') continue;\n    if (url === 'https://rpp.pe/ultimas-noticias') continue;\n    if (url === 'https://rpp.pe/actualidad') continue;\n    if (url === 'https://rpp.pe/deportes') continue;\n    if (url === 'https://rpp.pe/economia') continue;\n    if (url === 'https://rpp.pe/tecno') continue;\n    if (url === 'https://rpp.pe/peru') continue;\n    if (url === 'https://rpp.pe/entretenimiento') continue;\n    if (url === 'https://rpp.pe/mundo') continue;\n    if (url === 'https://rpp.pe/videojuegos') continue;\n    if (url === 'https://rpp.pe/vital') continue;\n    if (url === 'https://rpp.pe/audio') continue;\n    if (url === 'https://rpp.pe/videos') continue;\n    if (url === 'https://rpp.pe/audio/podcast') continue;\n    if (url === 'https://rpp.pe/las-fijas-del-ahorro\"') continue;\n    if (url === 'https://rpp.pe/calculadora-rpp-futbol-en-vivo-tabla-posiciones') continue;\n    if (url === 'https://participa.rpp.pe/?utm_source=rpp&utm_medium=rpp&utm_campaing=concurso-header') continue;\n    if (url === 'https://rpp.pe/buscar') continue;\n    if (url === 'https://rpp.pe/tv-vivo') continue;\n    if (url === 'https://rpp.pe/politica/congreso') continue;\n    if (url === 'https://rpp.pe/politica/elecciones') continue;\n    if (url === 'https://rpp.pe/politica/estado') continue;\n    if (url === 'https://rpp.pe/politica/gobierno') continue;\n    if (url === 'https://rpp.pe/politica/historia') continue;\n    if (url === 'https://rpp.pe/politica/judiciales') continue;\n    if (url === 'https://rpp.pe/politica/actualidad') continue;\n    if (url === 'https://rpp.pe/lima/policiales-crimenes') continue;\n    if (url === 'https://rpp.pe/lima/actualidad') continue;\n    if (url === 'https://rpp.pe/lima/accidentes') continue;\n    if (url === 'https://rpp.pe/lima/judiciales') continue;\n    if (url === 'https://rpp.pe/lima/obras') continue;\n    if (url === 'https://rpp.pe/lima/seguridad') continue;\n    if (url === 'https://rpp.pe/lima') continue;\n    if (url === 'https://rpp.pe/peru/amazonas') continue;\n    if (url === 'https://rpp.pe/peru/ancash') continue;\n    if (url === 'https://rpp.pe/peru/apurimac') continue;\n    if (url === 'https://rpp.pe/peru/arequipa') continue;\n    if (url === 'https://rpp.pe/peru/ayacucho') continue;\n    if (url === 'https://rpp.pe/peru/cajamarca') continue;\n    if (url === 'https://rpp.pe/peru/callao') continue;\n    if (url === 'https://rpp.pe/peru/cusco') continue;\n    if (url === 'https://rpp.pe/peru/desastres-naturales') continue;\n    if (url === 'https://rpp.pe/peru/huancavelica') continue;\n    if (url === 'https://rpp.pe/peru/huanuco') continue;\n    if (url === 'https://rpp.pe/peru/ica') continue;\n    if (url === 'https://rpp.pe/peru/junin') continue;\n    if (url === 'https://rpp.pe/peru/la-libertad') continue;\n    if (url === 'https://rpp.pe/peru/lambayeque') continue;\n    if (url === 'https://rpp.pe/peru/loreto') continue;\n    if (url === 'https://rpp.pe/peru/moquegua') continue;\n    if (url === 'https://rpp.pe/peru/piura') continue;\n    if (url === 'https://rpp.pe/peru/puno') continue;\n    if (url === 'https://rpp.pe/peru/pasco') continue;\n    if (url === 'https://rpp.pe/peru/san-martin') continue;\n    if (url === 'https://rpp.pe/peru/tacna') continue;\n    if (url === 'https://rpp.pe/peru/terrorismo') continue;\n    if (url === 'https://rpp.pe/peru/tumbes') continue;\n    if (url === 'https://rpp.pe/peru/ucayali') continue;\n    if (url === 'https://rpp.pe/peru/historia') continue;\n    if (url === 'https://rpp.pe/peru/narcotrafico') continue;\n    if (url === 'https://rpp.pe/futbol/champions-league') continue;\n    if (url === 'https://rpp.pe/futbol/copa-libertadores') continue;\n    if (url === 'https://rpp.pe/futbol/copa-peru') continue;\n    if (url === 'https://rpp.pe/futbol/copa-sudamericana') continue;\n    if (url === 'https://rpp.pe/futbol/descentralizado') continue;\n    if (url === 'https://rpp.pe/futbol/eliminatorias') continue;\n    if (url === 'https://rpp.pe/futbol/futbol-mundial') continue;\n    if (url === 'https://rpp.pe/futbol/ligas-internacionales') continue;\n    if (url === 'https://rpp.pe/futbol/ligas-internacionales') continue;\n    if (url === 'https://rpp.pe/mascotas') continue;\n    if (url === 'https://rpp.pe/calculadora-igv-peru-2025') continue;\n    if (url === 'https://rpp.pe/tipo-cambio-dolar-peru-precio-hoy') continue;\n    if (url === 'https://rpp.pe/calendario-feriados-2025-peru') continue;\n    if (url === 'https://rpp.pe/simulador-credito-hipotecario-2025') continue;\n    if (url === 'https://rpp.pe/calculadora-cts-2025') continue;\n    if (url === 'https://rpp.pe/eliminatorias-sudamericanas-2026') continue;\n    if (url === 'https://participa.rpp.pe/?utm_source=rpp&amp;utm_medium=rpp&amp;utm_campaing=concurso-header') continue;\n    if (url === 'https://rpp.pe/mujeresdecambio') continue;\n    if (url === 'https://rpp.pe/ciudades-con-futuro') continue;\n    if (url === 'https://rpp.pe/audio/') continue;\n    if (url === 'https://rpp.pe/oceanossaludables') continue;\n    if (url === 'https://newsletter.rpp.pe/catalogo') continue;\n    if (url === 'https://rpp.pe/noticias/el-poder-en-tus-manos') continue;\n    if (url === 'https://rpp.pe/noticias/dina-boluarte') continue;\n    if (url === 'https://rpp.pe/noticias/poder-ejecutivo') continue;\n    if (url === 'https://rpp.pe/noticias/poder-judicial') continue;\n    if (url === 'https://rpp.pe/noticias/congreso-de-la-republica') continue;\n    if (url === '/politica/gobierno') continue;\n    if (url === '/politica/congreso') continue;\n    if (url === '/politica/elecciones') continue;\n    if (url === 'https://rpp.pe/elpoderentusmanos') continue;\n    if (url === 'https://rpp.pe/peru/actualidad') continue;\n    if (url === 'https://rpp.pe/archivo/politica') continue;\n    if (url === 'https://www.studio92.com/') continue;\n    if (url === 'https://www.oxigeno.com.pe/') continue;\n    if (url === 'https://www.lazona.com.pe/') continue;\n    if (url === 'https://corazon.pe/') continue;\n    if (url === 'https://www.felicidad.com.pe/') continue\n    if (url === 'https://rpp.pe/legal') continue\n    if (url === 'https://rpp.pe/politica-de-privacidad') continue\n    if (url === 'https://impulsatumarca.pe/?utm_source=web&utm_medium=botonanunciaaqui&utm_campaign=rpp') continue\n    if (url === 'https://rpp.pe/principios-eticos') continue\n    if (url === '//www.google.com') continue\n    if (url === 'https://rpp.pe/las-fijas-del-ahorro') continue\n    if (url === 'https://rpp.pe/calculadora-gratificacion-peru') continue\n    if (url === 'https://rpp.pe/copa-america-2024') continue\n    if (url === 'https://rpp.pe/eurocopa-2024') continue\n    if (url === 'https://rpp.pe/voley') continue\n    if (url === 'https://rpp.pe/tenis') continue\n    if (url === 'https://rpp.pe/lucha/ufc') continue\n    if (url === 'https://rpp.pe/lucha/wwe') continue\n    if (url === 'https://rpp.pe/juegos-olimpicos-2024') continue\n    if (url === 'https://rpp.pe/mundo/africa') continue\n    if (url === 'https://rpp.pe/mundo/argentina') continue\n    if (url === 'https://rpp.pe/mundo/asia') continue\n    if (url === 'https://rpp.pe/mundo/chile') continue\n    if (url === 'https://rpp.pe/mundo/china') continue\n    if (url === 'https://rpp.pe/mundo/colombia') continue\n    if (url === 'https://rpp.pe/mundo/espana') continue\n    if (url === 'https://rpp.pe/mundo/estados-unidos') continue\n    if (url === 'https://rpp.pe/mundo/europa') continue\n    if (url === 'https://rpp.pe/mundo/medio-oriente') continue\n    if (url === 'https://rpp.pe/mundo/latinoamerica') continue\n    if (url === 'https://rpp.pe/mundo/medio-ambiente') continue\n    if (url === 'https://rpp.pe/mundo/mexico') continue\n    if (url === 'https://rpp.pe/mundo/norteamerica') continue\n    if (url === 'https://rpp.pe/mundo/oceania') continue\n    if (url === 'https://rpp.pe/mundo/rusia') continue\n    if (url === 'https://rpp.pe/mundo/venezuela') continue\n    if (url === 'https://rpp.pe/mundo/economia') continue\n    if (url === 'https://rpp.pe/musica') continue\n    if (url === 'https://rpp.pe/virales') continue\n    if (url === 'https://rpp.pe/audio/programas') continue\n    if (url === 'https://rpp.pe/') continue\n    if (url === 'https://rpp.pe/archivo/mundo') continue\n    if (url === 'https://rpp.pe/lima/policiales') continue\n    if (url === '/mundo/actualidad') continue\n    if (url === '/mundo/medio-oriente') continue\n    if (url === '/mundo/asia') continue\n    if (url === 'https://rpp.pe/mundo/actualidad') continue\n    if (url === 'https://rpp.pe/noticias/venezuela') continue\n    if (url === 'https://rpp.pe/noticias/israel') continue\n    if (url === 'https://rpp.pe/noticias/ucrania') continue\n    if (url === 'https://rpp.pe/noticias/vladimir-putin') continue\n    if (url === 'https://rpp.pe/noticias/rusia') continue\n    if (url === 'https://rpp.pe/noticias/estados-unidos') continue\n    if (url === 'https://rpp.pe/noticias/argentina') continue\n    if (url === 'https://rpp.pe/noticias/javier-milei') continue\n    if (url === 'https://rpp.pe/noticias/mexico') continue\n    if (url === 'https://rpp.pe/noticias/donald-trump') continue\n    if (url === '/peru/actualidad') continue\n    if (url === 'https://rpp.pe/noticias/precio-del-dolar') continue\n    if (url === 'https://rpp.pe/noticias/bcr') continue\n    if (url === 'https://rpp.pe/noticias/inflacion') continue\n    if (url === 'https://rpp.pe/noticias/inei') continue\n    if (url === 'https://rpp.pe/noticias/mef') continue\n    if (url === 'https://rpp.pe/noticias/mineria') continue\n    if (url === 'https://rpp.pe/noticias/petroperu') continue\n    if (url === 'https://rpp.pe/noticias/pesca') continue\n    if (url === 'https://rpp.pe/noticias/agro') continue\n    if (url === 'https://rpp.pe/noticias/comercio') continue\n    if (url === 'https://rpp.pe/noticias/nicolas-maduro') continue\n\n    // Excluir anclas y esquemas no HTTP útiles\n    if (url.startsWith('#') || url.toLowerCase().startsWith('javascript:') ||\n        url.toLowerCase().startsWith('mailto:') || url.toLowerCase().startsWith('tel:')) {\n      continue;\n    }\n\n    // Excluir si contiene cualquiera de los patrones (case-insensitive)\n    const lower = url.toLowerCase();\n    if (excludePatterns.some(p => lower.includes(p))) continue;\n\n    links.add(url);\n  }\n}\n\n// Retornar links únicos como items para n8n\nreturn Array.from(links).map(link => ({ json: { link } }));\n"
+        "jsCode": "// Function Node (n8n) - extrae hrefs desde item.json.data y aplica filtros solicitados\nconst links = new Set();\nconst hrefRegex = /href\\s*=\\s*[\"']([^\"']+)[\"']/gi;\nconst excludePatterns = ['php','css','png','jpg','fonts','feed','comments','/categoria/','cdn','googletagmanager','zapwp','wp','rss','s2','md1','tag','gstatic','doubleclick','cm','securepubads','futbol', 'cultura','tecnologia','videojuegos','vital','ciencia','usa','videos','columnistas','rotafono','autor','audioplayer','tv','tiktok','facebook','twitter','youtube','whatsapp','multideportes','economia','famosos','cine'];\n\nfor (const item of $input.all()) {\n  const html = item.json.data || '';\n  let match;\n  while ((match = hrefRegex.exec(html)) !== null) {\n    let url = match[1].trim();\n    if (!url) continue;\n\n    // Excluir exactamente \"/\" (comparación exacta)\n    if (url === '/') continue;\n    if (url === 'https://rpp.pe/politica') continue;\n    if (url === '/politica/judiciales') continue;\n    if (url === 'https://rpp.pe/ultimas-noticias') continue;\n    if (url === 'https://rpp.pe/actualidad') continue;\n    if (url === 'https://rpp.pe/deportes') continue;\n    if (url === 'https://rpp.pe/economia') continue;\n    if (url === 'https://rpp.pe/tecno') continue;\n    if (url === 'https://rpp.pe/peru') continue;\n    if (url === 'https://rpp.pe/entretenimiento') continue;\n    if (url === 'https://rpp.pe/mundo') continue;\n    if (url === 'https://rpp.pe/videojuegos') continue;\n    if (url === 'https://rpp.pe/vital') continue;\n    if (url === 'https://rpp.pe/audio') continue;\n    if (url === 'https://rpp.pe/videos') continue;\n    if (url === 'https://rpp.pe/audio/podcast') continue;\n    if (url === 'https://rpp.pe/las-fijas-del-ahorro\"') continue;\n    if (url === 'https://rpp.pe/calculadora-rpp-futbol-en-vivo-tabla-posiciones') continue;\n    if (url === 'https://participa.rpp.pe/?utm_source=rpp&utm_medium=rpp&utm_campaing=concurso-header') continue;\n    if (url === 'https://rpp.pe/buscar') continue;\n    if (url === 'https://rpp.pe/tv-vivo') continue;\n    if (url === 'https://rpp.pe/politica/congreso') continue;\n    if (url === 'https://rpp.pe/politica/elecciones') continue;\n    if (url === 'https://rpp.pe/politica/estado') continue;\n    if (url === 'https://rpp.pe/politica/gobierno') continue;\n    if (url === 'https://rpp.pe/politica/historia') continue;\n    if (url === 'https://rpp.pe/politica/judiciales') continue;\n    if (url === 'https://rpp.pe/politica/actualidad') continue;\n    if (url === 'https://rpp.pe/lima/policiales-crimenes') continue;\n    if (url === 'https://rpp.pe/lima/actualidad') continue;\n    if (url === 'https://rpp.pe/lima/accidentes') continue;\n    if (url === 'https://rpp.pe/lima/judiciales') continue;\n    if (url === 'https://rpp.pe/lima/obras') continue;\n    if (url === 'https://rpp.pe/lima/seguridad') continue;\n    if (url === 'https://rpp.pe/lima') continue;\n    if (url === 'https://rpp.pe/peru/amazonas') continue;\n    if (url === 'https://rpp.pe/peru/ancash') continue;\n    if (url === 'https://rpp.pe/peru/apurimac') continue;\n    if (url === 'https://rpp.pe/peru/arequipa') continue;\n    if (url === 'https://rpp.pe/peru/ayacucho') continue;\n    if (url === 'https://rpp.pe/peru/cajamarca') continue;\n    if (url === 'https://rpp.pe/peru/callao') continue;\n    if (url === 'https://rpp.pe/peru/cusco') continue;\n    if (url === 'https://rpp.pe/peru/desastres-naturales') continue;\n    if (url === 'https://rpp.pe/peru/huancavelica') continue;\n    if (url === 'https://rpp.pe/peru/huanuco') continue;\n    if (url === 'https://rpp.pe/peru/ica') continue;\n    if (url === 'https://rpp.pe/peru/junin') continue;\n    if (url === 'https://rpp.pe/peru/la-libertad') continue;\n    if (url === 'https://rpp.pe/peru/lambayeque') continue;\n    if (url === 'https://rpp.pe/peru/loreto') continue;\n    if (url === 'https://rpp.pe/peru/moquegua') continue;\n    if (url === 'https://rpp.pe/peru/piura') continue;\n    if (url === 'https://rpp.pe/peru/puno') continue;\n    if (url === 'https://rpp.pe/peru/pasco') continue;\n    if (url === 'https://rpp.pe/peru/san-martin') continue;\n    if (url === 'https://rpp.pe/peru/tacna') continue;\n    if (url === 'https://rpp.pe/peru/terrorismo') continue;\n    if (url === 'https://rpp.pe/peru/tumbes') continue;\n    if (url === 'https://rpp.pe/peru/ucayali') continue;\n    if (url === 'https://rpp.pe/peru/historia') continue;\n    if (url === 'https://rpp.pe/peru/narcotrafico') continue;\n    if (url === 'https://rpp.pe/futbol/champions-league') continue;\n    if (url === 'https://rpp.pe/futbol/copa-libertadores') continue;\n    if (url === 'https://rpp.pe/futbol/copa-peru') continue;\n    if (url === 'https://rpp.pe/futbol/copa-sudamericana') continue;\n    if (url === 'https://rpp.pe/futbol/descentralizado') continue;\n    if (url === 'https://rpp.pe/futbol/eliminatorias') continue;\n    if (url === 'https://rpp.pe/futbol/futbol-mundial') continue;\n    if (url === 'https://rpp.pe/futbol/ligas-internacionales') continue;\n    if (url === 'https://rpp.pe/futbol/ligas-internacionales') continue;\n    if (url === 'https://rpp.pe/mascotas') continue;\n    if (url === 'https://rpp.pe/calculadora-igv-peru-2025') continue;\n    if (url === 'https://rpp.pe/tipo-cambio-dolar-peru-precio-hoy') continue;\n    if (url === 'https://rpp.pe/calendario-feriados-2025-peru') continue;\n    if (url === 'https://rpp.pe/simulador-credito-hipotecario-2025') continue;\n    if (url === 'https://rpp.pe/calculadora-cts-2025') continue;\n    if (url === 'https://rpp.pe/eliminatorias-sudamericanas-2026') continue;\n    if (url === 'https://participa.rpp.pe/?utm_source=rpp&amp;utm_medium=rpp&amp;utm_campaing=concurso-header') continue;\n    if (url === 'https://rpp.pe/mujeresdecambio') continue;\n    if (url === 'https://rpp.pe/ciudades-con-futuro') continue;\n    if (url === 'https://rpp.pe/audio/') continue;\n    if (url === 'https://rpp.pe/oceanossaludables') continue;\n    if (url === 'https://newsletter.rpp.pe/catalogo') continue;\n    if (url === 'https://rpp.pe/noticias/el-poder-en-tus-manos') continue;\n    if (url === 'https://rpp.pe/noticias/dina-boluarte') continue;\n    if (url === 'https://rpp.pe/noticias/poder-ejecutivo') continue;\n    if (url === 'https://rpp.pe/noticias/poder-judicial') continue;\n    if (url === 'https://rpp.pe/noticias/congreso-de-la-republica') continue;\n    if (url === '/politica/gobierno') continue;\n    if (url === '/politica/congreso') continue;\n    if (url === '/politica/elecciones') continue;\n    if (url === 'https://rpp.pe/elpoderentusmanos') continue;\n    if (url === 'https://rpp.pe/peru/actualidad') continue;\n    if (url === 'https://rpp.pe/archivo/politica') continue;\n    if (url === 'https://www.studio92.com/') continue;\n    if (url === 'https://www.oxigeno.com.pe/') continue;\n    if (url === 'https://www.lazona.com.pe/') continue;\n    if (url === 'https://corazon.pe/') continue;\n    if (url === 'https://www.felicidad.com.pe/') continue\n    if (url === 'https://rpp.pe/legal') continue\n    if (url === 'https://rpp.pe/politica-de-privacidad') continue\n    if (url === 'https://impulsatumarca.pe/?utm_source=web&utm_medium=botonanunciaaqui&utm_campaign=rpp') continue\n    if (url === 'https://rpp.pe/principios-eticos') continue\n    if (url === '//www.google.com') continue\n    if (url === 'https://rpp.pe/las-fijas-del-ahorro') continue\n    if (url === 'https://rpp.pe/calculadora-gratificacion-peru') continue\n    if (url === 'https://rpp.pe/copa-america-2024') continue\n    if (url === 'https://rpp.pe/eurocopa-2024') continue\n    if (url === 'https://rpp.pe/voley') continue\n    if (url === 'https://rpp.pe/tenis') continue\n    if (url === 'https://rpp.pe/lucha/ufc') continue\n    if (url === 'https://rpp.pe/lucha/wwe') continue\n    if (url === 'https://rpp.pe/juegos-olimpicos-2024') continue\n    if (url === 'https://rpp.pe/mundo/africa') continue\n    if (url === 'https://rpp.pe/mundo/argentina') continue\n    if (url === 'https://rpp.pe/mundo/asia') continue\n    if (url === 'https://rpp.pe/mundo/chile') continue\n    if (url === 'https://rpp.pe/mundo/china') continue\n    if (url === 'https://rpp.pe/mundo/colombia') continue\n    if (url === 'https://rpp.pe/mundo/espana') continue\n    if (url === 'https://rpp.pe/mundo/estados-unidos') continue\n    if (url === 'https://rpp.pe/mundo/europa') continue\n    if (url === 'https://rpp.pe/mundo/medio-oriente') continue\n    if (url === 'https://rpp.pe/mundo/latinoamerica') continue\n    if (url === 'https://rpp.pe/mundo/medio-ambiente') continue\n    if (url === 'https://rpp.pe/mundo/mexico') continue\n    if (url === 'https://rpp.pe/mundo/norteamerica') continue\n    if (url === 'https://rpp.pe/mundo/oceania') continue\n    if (url === 'https://rpp.pe/mundo/rusia') continue\n    if (url === 'https://rpp.pe/mundo/venezuela') continue\n    if (url === 'https://rpp.pe/mundo/economia') continue\n    if (url === 'https://rpp.pe/musica') continue\n    if (url === 'https://rpp.pe/virales') continue\n    if (url === 'https://rpp.pe/audio/programas') continue\n    if (url === 'https://rpp.pe/') continue\n    if (url === 'https://rpp.pe/archivo/mundo') continue\n    if (url === 'https://rpp.pe/lima/policiales') continue\n    if (url === '/mundo/actualidad') continue\n    if (url === '/mundo/medio-oriente') continue\n    if (url === '/mundo/asia') continue\n    if (url === '/mundo/latinoamerica') continue\n    if (url === 'https://rpp.pe/mundo/actualidad') continue\n    if (url === 'https://rpp.pe/noticias/venezuela') continue\n    if (url === 'https://rpp.pe/noticias/israel') continue\n    if (url === 'https://rpp.pe/noticias/ucrania') continue\n    if (url === 'https://rpp.pe/noticias/vladimir-putin') continue\n    if (url === 'https://rpp.pe/noticias/rusia') continue\n    if (url === 'https://rpp.pe/noticias/estados-unidos') continue\n    if (url === 'https://rpp.pe/noticias/argentina') continue\n    if (url === 'https://rpp.pe/noticias/javier-milei') continue\n    if (url === 'https://rpp.pe/noticias/mexico') continue\n    if (url === 'https://rpp.pe/noticias/donald-trump') continue\n    if (url === '/peru/actualidad') continue\n    if (url === 'https://rpp.pe/noticias/precio-del-dolar') continue\n    if (url === 'https://rpp.pe/noticias/bcr') continue\n    if (url === 'https://rpp.pe/noticias/inflacion') continue\n    if (url === 'https://rpp.pe/noticias/inei') continue\n    if (url === 'https://rpp.pe/noticias/mef') continue\n    if (url === 'https://rpp.pe/noticias/mineria') continue\n    if (url === 'https://rpp.pe/noticias/petroperu') continue\n    if (url === 'https://rpp.pe/noticias/pesca') continue\n    if (url === 'https://rpp.pe/noticias/agro') continue\n    if (url === 'https://rpp.pe/noticias/comercio') continue\n    if (url === 'https://rpp.pe/noticias/nicolas-maduro') continue\n\n    // Excluir anclas y esquemas no HTTP útiles\n    if (url.startsWith('#') || url.toLowerCase().startsWith('javascript:') ||\n        url.toLowerCase().startsWith('mailto:') || url.toLowerCase().startsWith('tel:')) {\n      continue;\n    }\n\n    // Excluir si contiene cualquiera de los patrones (case-insensitive)\n    const lower = url.toLowerCase();\n    if (excludePatterns.some(p => lower.includes(p))) continue;\n\n    links.add(url);\n  }\n}\n\n// Retornar links únicos como items para n8n\nreturn Array.from(links).map(link => ({ json: { link } }));\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4464,
-        608
+        2368,
+        976
       ],
       "id": "0faaa882-3cc2-430c-b069-8dbe6b30d448",
       "name": "Diario RPP"
@@ -400,37 +352,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4480,
-        848
+        2384,
+        1216
       ],
       "id": "2ea29d2c-1023-4de5-8f8c-e1aee50a23c2",
       "name": "Diario Correo"
     },
     {
       "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        1648,
-        -1280
-      ],
-      "id": "0445ab57-b266-46b6-9d98-a0e61ccc25a9",
-      "name": "Loop Over Items2"
-    },
-    {
-      "parameters": {
         "operation": "insert",
         "collection": "urls",
-        "fields": "link,title",
+        "fields": "link,title,category,creation_date,image",
         "options": {}
       },
       "type": "n8n-nodes-base.mongoDb",
       "typeVersion": 1.2,
       "position": [
-        1888,
-        -1280
+        6912,
+        688
       ],
       "id": "d67d64db-046a-4ada-a218-afd3be4478d4",
       "name": "Insert documents",
@@ -450,8 +389,8 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        5488,
-        -832
+        2608,
+        -464
       ],
       "id": "4b76169f-9ecf-4c02-9f96-540cb3962456",
       "name": "Remove Duplicates1"
@@ -465,8 +404,8 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        5488,
-        -592
+        2608,
+        -224
       ],
       "id": "c570a9d6-fcb4-4f5f-a91d-251460c47a0c",
       "name": "Remove Duplicates2"
@@ -480,8 +419,8 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        5488,
-        -368
+        2608,
+        0
       ],
       "id": "855c269b-33dc-49bc-8ba2-ac6eddc35ff0",
       "name": "Remove Duplicates3"
@@ -495,8 +434,8 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        5488,
-        -128
+        2608,
+        240
       ],
       "id": "ab114f36-4748-4a22-826d-96bf3c79db46",
       "name": "Remove Duplicates4"
@@ -510,8 +449,8 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        5488,
-        128
+        2608,
+        496
       ],
       "id": "f1545789-e846-458c-90c3-918805e182c3",
       "name": "Remove Duplicates5"
@@ -525,8 +464,8 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        5488,
-        384
+        2608,
+        752
       ],
       "id": "c2bb7e73-ba43-43ad-b334-984a2e1e92c9",
       "name": "Remove Duplicates6"
@@ -540,11 +479,12 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        5488,
-        608
+        2608,
+        976
       ],
       "id": "1e95402d-8908-436b-9259-822f5b040ba8",
-      "name": "Remove Duplicates7"
+      "name": "Remove Duplicates7",
+      "alwaysOutputData": false
     },
     {
       "parameters": {
@@ -555,8 +495,8 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        5488,
-        848
+        2608,
+        1216
       ],
       "id": "31bc043c-336c-4e34-8ff0-c0f3634ae328",
       "name": "Remove Duplicates8"
@@ -570,8 +510,8 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        352,
-        -1296
+        3168,
+        368
       ],
       "id": "a7a6bd9e-8ad3-4693-9699-1737f7542e48",
       "name": "Remove Duplicates"
@@ -599,8 +539,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1168,
-        -1392
+        3600,
+        272
       ],
       "id": "3b30e867-43d9-413f-8f43-567d3d70dd26",
       "name": "Edit Fields1"
@@ -659,8 +599,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        912,
-        -1296
+        3344,
+        368
       ],
       "id": "396fb819-5fef-4724-a439-a6cc7219cf98",
       "name": "If"
@@ -688,8 +628,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1168,
-        -1184
+        3600,
+        480
       ],
       "id": "6e9b85c9-a3b5-4e1b-a967-00f460bb8c56",
       "name": "Edit Fields2"
@@ -699,41 +639,1341 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1392,
-        -1280
+        3824,
+        384
       ],
       "id": "7dd015fb-f378-4191-a40e-ac9e37ee88d9",
       "name": "Merge"
     },
     {
       "parameters": {
-        "operation": "removeItemsSeenInPreviousExecutions",
-        "dedupeValue": "={{ $json.link }}",
-        "options": {}
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 12
+            }
+          ]
+        }
       },
-      "type": "n8n-nodes-base.removeDuplicates",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        1024,
+        352
+      ],
+      "id": "0d0233d8-5a06-4447-acbd-5159510dd973",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "numberInputs": 8
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2976,
+        272
+      ],
+      "id": "0e1492c6-3ebb-443b-addb-1ca94e4248d6",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "collection": "urls",
+        "options": {},
+        "query": "={\"title\": \"{{ $json.title }}\"}"
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        4032,
+        384
+      ],
+      "id": "26114ff3-2dcb-465e-8890-811fd4662400",
+      "name": "Find documents",
+      "alwaysOutputData": false,
+      "notesInFlow": false,
+      "credentials": {
+        "mongoDb": {
+          "id": "44uvjFS2nQmOBnWb",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4176,
+        688
+      ],
+      "id": "d6b529ab-4f5e-4a6f-a163-a737ec7d7823",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener todos los elementos del nodo anterior\nconst items = $input.all();\n\n// Contador de ocurrencias por título\nconst titleCount = {};\n\n// Contar cuántas veces aparece cada título\nfor (const item of items) {\n  const title = item.json.title;\n  titleCount[title] = (titleCount[title] || 0) + 1;\n}\n\n// Filtrar solo los elementos cuyo título aparece una sola vez\nconst uniqueItems = items.filter(item => titleCount[item.json.title] === 1);\n\n// Devolver los elementos únicos (sin duplicados)\nreturn uniqueItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        624,
-        -1296
+        4336,
+        688
       ],
-      "id": "80f220d8-f9db-4ed9-b217-4142542aa4fd",
-      "name": "Remove Duplicates9"
+      "id": "ca53c609-1940-4cca-b851-312685f9161b",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "={{\"politica\" || \"nacionales\" || \"sociedad\" || \"nacionales\" || \"actualidad\" || \"locales\" || \"tramites\" || \"transporte\" || \"peru\" || \"lima\"}}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "212f64b2-662d-40c7-a1a9-0bec7bb2c36c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "politica"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "eb40e093-dc1e-48bf-9f45-2e1b4c95ea7c",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "={{\"economia\"}}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "economia"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "31e2a15e-d5b1-4e1e-a3af-66d2e25f4bc9",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "={{\"deportes\" || \"espectaculos\"}}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "deporte"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5d8842fa-5f03-4ad8-a359-0a9dd56cea20",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "={{\"mundo\" || \"internacionales\" || \"internacional\"}}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "mundo"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        4512,
+        640
+      ],
+      "id": "117e8ac6-d32e-443a-a111-7cc5a071c338",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f47258e7-e358-4b1c-b134-e1ea15cb7770",
+              "name": "link",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf874e0d-4d83-4692-8e2a-98c874f0f99f",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "4bcef51b-daf9-4cf3-9125-321862fa950d",
+              "name": "category",
+              "value": "politica",
+              "type": "string"
+            },
+            {
+              "id": "3bfc0ab0-b1db-45b4-981c-11d8a78a4e82",
+              "name": "creation_date",
+              "value": "={{ new Date().toLocaleDateString('es-ES')}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4800,
+        384
+      ],
+      "id": "0a80cddd-8600-40a0-8905-e678f4cf3a7a",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f47258e7-e358-4b1c-b134-e1ea15cb7770",
+              "name": "link",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf874e0d-4d83-4692-8e2a-98c874f0f99f",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "4bcef51b-daf9-4cf3-9125-321862fa950d",
+              "name": "category",
+              "value": "economia",
+              "type": "string"
+            },
+            {
+              "id": "3bfc0ab0-b1db-45b4-981c-11d8a78a4e82",
+              "name": "creation_date",
+              "value": "={{ new Date().toLocaleDateString('es-ES')}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4816,
+        736
+      ],
+      "id": "99c168ef-40db-4396-9f13-17a4bb8493e9",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f47258e7-e358-4b1c-b134-e1ea15cb7770",
+              "name": "link",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf874e0d-4d83-4692-8e2a-98c874f0f99f",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "4bcef51b-daf9-4cf3-9125-321862fa950d",
+              "name": "category",
+              "value": "mundo",
+              "type": "string"
+            },
+            {
+              "id": "3bfc0ab0-b1db-45b4-981c-11d8a78a4e82",
+              "name": "creation_date",
+              "value": "={{ new Date().toLocaleDateString('es-ES')}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4816,
+        912
+      ],
+      "id": "cf7c334d-06a4-4e06-a7e9-6d7c265f6149",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5104,
+        672
+      ],
+      "id": "8a831990-c092-4563-8369-8d5f77bf22f6",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a5c06fda-f11a-4303-a009-56b186a6581c",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "eltiempo.pe",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "eltiempo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "80a8c589-f25d-4f07-adcd-9a2e7c2c40dd",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "exitosanoticias.pe",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exitosa"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "acc09819-9415-41dd-8ab0-321dbcc7031e",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "panamericana.pe",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "panamericana"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "19d11a5d-5dcd-487d-9891-4846e73c112a",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "peru21.pe",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "peru21"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d062d45e-4285-4e3d-95d9-3e8c031979c4",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "elcomercio.pe",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "comercio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5eb94f9f-969e-41fe-81ee-b84354e5409a",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "larepublica.pe",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "republica"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3b7920ba-e3cf-4ff1-a85e-22e309c1c235",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "rpp.pe",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "rpp"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c4728207-d600-4f50-b6a4-1cdb98cf76e8",
+                    "leftValue": "={{ $json.link }}",
+                    "rightValue": "diariocorreo.pe",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "diariocorreo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        5328,
+        592
+      ],
+      "id": "3250b473-e915-41c4-aafd-a3ded44973c3",
+      "name": "Switch2",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5728,
+        48
+      ],
+      "id": "d4db0440-db00-4e3c-9538-03e8df49338d",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5728,
+        208
+      ],
+      "id": "159e4890-1981-40a1-a049-482d925a3b92",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5728,
+        384
+      ],
+      "id": "7ac99cd2-c13f-420d-b160-7f4052311e4f",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5728,
+        544
+      ],
+      "id": "d23d3a0e-7883-4e65-8142-3ad47767663c",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5728,
+        704
+      ],
+      "id": "9dac9997-272e-49e0-8717-f47283fbd099",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5728,
+        880
+      ],
+      "id": "0051e0bd-aff6-4317-b39a-a14a89124257",
+      "name": "HTTP Request6",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5728,
+        1040
+      ],
+      "id": "93c80f24-35bd-4b07-a0d1-4dd80bd9b44a",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.link }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5728,
+        1216
+      ],
+      "id": "566c2b19-557c-422a-a63f-8d08471f0114",
+      "name": "HTTP Request8"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "image",
+              "cssSelector": ".et_pb_image_0_tb_body",
+              "returnValue": "html"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        5936,
+        48
+      ],
+      "id": "95d89eee-1a57-46b5-a37a-a2534478447e",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "image",
+              "cssSelector": ".image-detail",
+              "returnValue": "html"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        5936,
+        208
+      ],
+      "id": "19f0623a-36c3-4751-a4e7-6a76df32db3b",
+      "name": "HTML1"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "image",
+              "cssSelector": ".elemento-multimedia",
+              "returnValue": "html"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        5936,
+        384
+      ],
+      "id": "6bc423a6-c151-45aa-bf00-898427af471b",
+      "name": "HTML2"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "image",
+              "cssSelector": ".field--name-field-media-image",
+              "returnValue": "html"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        5936,
+        544
+      ],
+      "id": "88634fa9-9e28-4033-bdd4-6cbf879a1601",
+      "name": "HTML3"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        5936,
+        704
+      ],
+      "id": "f137fe10-bad2-403e-a66d-8abcb2a71f0d",
+      "name": "HTML4"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "image",
+              "cssSelector": ".ImageMedia_imageInternalContainer__EqY89",
+              "returnValue": "html"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        5936,
+        880
+      ],
+      "id": "323e014b-c495-4253-9a0d-860d560b6c14",
+      "name": "HTML5"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "image",
+              "cssSelector": ".media",
+              "returnValue": "html"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        5936,
+        1040
+      ],
+      "id": "06c12d3f-b297-4949-a6a0-4361b5cfb838",
+      "name": "HTML6"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "image",
+              "cssSelector": ".s-multimedia",
+              "returnValue": "html"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        5936,
+        1216
+      ],
+      "id": "32ca7da2-a254-4bc2-a663-60bd16154d75",
+      "name": "HTML7"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Function Node (n8n)\n// Extrae el enlace (URL) de la imagen principal desde item.json.image[0]\nconst results = [];\n\nfor (const item of $input.all()) {\n  let html = '';\n\n  // Manejar el caso en que \"image\" es un array con HTML dentro\n  if (Array.isArray(item.json.image)) {\n    html = item.json.image.join(' ');\n  } else if (typeof item.json.image === 'string') {\n    html = item.json.image;\n  }\n\n  // Buscar en orden de prioridad\n  let match =\n    html.match(/data-lazy-src=[\"']([^\"']+)[\"']/i) ||\n    html.match(/<noscript>[\\s\\S]*?src=[\"']([^\"']+)[\"']/i) ||\n    html.match(/src=[\"']([^\"']+)[\"']/i);\n\n  let link = match ? match[1] : null;\n\n  // Ignorar placeholders tipo data:image\n  if (link && link.startsWith('data:image')) {\n    const lazyMatch = html.match(/data-lazy-src=[\"']([^\"']+)[\"']/i);\n    const noscriptMatch = html.match(/<noscript>[\\s\\S]*?src=[\"']([^\"']+)[\"']/i);\n    link = (lazyMatch && lazyMatch[1]) || (noscriptMatch && noscriptMatch[1]) || null;\n  }\n\n  results.push({ json: { link } });\n}\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6144,
+        48
+      ],
+      "id": "db95214e-73dd-4bf1-99f2-394dd49cb658",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Function Node (n8n)\n// Extrae enlaces de imágenes (<picture>, <source>, <img>) o videos (<iframe>)\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  let html = item.json.image || item.json.data || ''; // soporta distintos nombres de campo\n  let link = null;\n\n  // Primero verificamos si es un video (iframe)\n  const iframeMatch = html.match(/<iframe[^>]+src=[\"']([^\"']+)[\"']/i);\n\n  if (iframeMatch) {\n    // Si hay iframe, tomamos su src (enlace de video)\n    link = iframeMatch[1];\n  } else {\n    // Si no hay iframe, intentamos extraer imágenes\n    const sourceMatch = html.match(/<source[^>]+srcset=[\"']([^\"']+)[\"']/i);\n    const imgMatch = html.match(/<img[^>]+src=[\"']([^\"']+)[\"']/i);\n\n    if (sourceMatch) {\n      link = sourceMatch[1];\n    } else if (imgMatch) {\n      link = imgMatch[1];\n    }\n  }\n\n  results.push({ json: { link } });\n}\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6144,
+        208
+      ],
+      "id": "b6f990a3-cd2c-40d1-b9bb-992494e40e2f",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Function Node (n8n)\n// Extrae el enlace principal (imagen o video) desde etiquetas <img> o <iframe>\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  let html = item.json.image || item.json.data || item.json.contenido || ''; // flexibilidad con el nombre del campo\n  let link = null;\n  let type = null;\n\n  // Primero buscamos si hay un iframe (video)\n  const iframeMatch = html.match(/<iframe[^>]+src=[\"']([^\"']+)[\"']/i);\n  const imgMatch = html.match(/<img[^>]+src=[\"']([^\"']+)[\"']/i);\n\n  if (iframeMatch) {\n    link = iframeMatch[1];\n    type = 'video';\n  } else if (imgMatch) {\n    link = imgMatch[1];\n    type = 'image';\n  }\n\n  results.push({\n    json: {\n      link\n    }\n  });\n}\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6144,
+        384
+      ],
+      "id": "82e30330-5683-4164-ae28-fc9b48c92253",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Function Node (n8n)\n// Extrae el enlace absoluto de imágenes (con rutas relativas o absolutas)\n\nconst BASE_URL = 'https://peru21.pe'; // ✅ Cambia esto según la web base si es necesario\nconst results = [];\n\nfor (const item of $input.all()) {\n  let html = item.json.image || item.json.data || item.json.contenido || '';\n  let link = null;\n  let type = null;\n\n  // Buscar imagen\n  const imgMatch = html.match(/<img[^>]+src=[\"']([^\"']+)[\"']/i);\n\n  if (imgMatch) {\n    link = imgMatch[1].trim();\n    type = 'image';\n\n    // Si el link es relativo, añadir la base URL\n    if (link.startsWith('/')) {\n      link = BASE_URL + link;\n    }\n  }\n\n  results.push({\n    json: {\n      link\n    }\n  });\n}\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6144,
+        544
+      ],
+      "id": "9333e936-e851-4bf0-ae95-cacf300a094c",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6144,
+        704
+      ],
+      "id": "1d19f812-cfd9-4a95-a2bc-4b5d2f7e8fce",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Function Node (n8n)\n// Extrae enlaces de imágenes (La República)\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const html = item.json.image || item.json.data || item.json.contenido || '';\n  let link = null;\n  let alt = null;\n  let title = null;\n\n  // Buscar el src principal de la imagen\n  const imgMatch = html.match(/<img[^>]+src=[\"']([^\"']+)[\"']/i);\n  if (imgMatch) link = imgMatch[1].trim();\n\n  // Buscar atributo alt (descripción)\n  const altMatch = html.match(/alt=[\"']([^\"']+)[\"']/i);\n  if (altMatch) alt = altMatch[1].trim();\n\n  // Buscar atributo title (título)\n  const titleMatch = html.match(/title=[\"']([^\"']+)[\"']/i);\n  if (titleMatch) title = titleMatch[1].trim();\n\n  // Solo agregar si existe link válido\n  results.push({\n    json: {\n      link\n    }\n  });\n}\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6144,
+        880
+      ],
+      "id": "66ee6133-a07a-4982-bac6-f711bc9d34ff",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Function Node (n8n) - extrae el primer src de imagen desde item.json.image y lo devuelve como objeto simple\nconst output = [];\n\nfor (const item of $input.all()) {\n  const html = item.json.image;\n\n  // Valor por defecto si no hay imagen\n  let firstImage = \"No hay imagen disponible\";\n\n  // Verificar que el campo sea texto válido\n  if (typeof html === 'string' && html.trim()) {\n    const imgRegex = /<img[^>]+src=[\"']([^\"']+)[\"']/i;\n    const match = imgRegex.exec(html);\n    if (match) {\n      firstImage = match[1];\n    }\n  }\n\n  // Agregar al output como objeto simple\n  output.push({\n    json: {\n      link: firstImage,\n    },\n  });\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6144,
+        1040
+      ],
+      "id": "dd099c83-af63-4124-a1dd-c4c60e5806f6",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Function Node (n8n) - extrae el primer src de imagen o devuelve \"No hay imagen disponible\"\nconst output = [];\n\nfor (const item of $input.all()) {\n  const html = item.json.image;\n  let firstImage = \"No hay imagen disponible\";\n\n  if (typeof html === 'string' && html.trim()) {\n    // Buscar data-src primero (lazy loading)\n    let match = html.match(/<img[^>]+data-src=[\"']([^\"']+)[\"']/i);\n\n    // Si no hay data-src, buscar src normal\n    if (!match) {\n      match = html.match(/<img[^>]+src=[\"']([^\"']+)[\"']/i);\n    }\n\n    // Si se encuentra un link real distinto al placeholder\n    if (match && match[1] && !match[1].includes('default-md.png')) {\n      firstImage = match[1]\n        .replace(/&amp;/g, '&')  // ✅ decodifica &amp; a &\n        .trim();\n    }\n  }\n\n  output.push({\n    json: {\n      link: firstImage,\n    },\n  });\n}\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6144,
+        1216
+      ],
+      "id": "324bc193-0e84-48bc-89ee-3bb45418e315",
+      "name": "Code in JavaScript8"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e520d2d9-c8b1-4424-b860-c7dccb665979",
+              "name": "title",
+              "value": "={{ $('Switch2').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "73d64862-7451-4821-a48b-ca4321556048",
+              "name": "category",
+              "value": "={{ $('Switch2').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "74aca030-9d0f-45d1-ac6a-6e5086c03936",
+              "name": "creation_date",
+              "value": "={{ $('Switch2').item.json.creation_date }}",
+              "type": "string"
+            },
+            {
+              "id": "3c297ffd-2b8e-4875-862c-f481da131a92",
+              "name": "link",
+              "value": "={{ $('Switch2').item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "956462ba-3848-40dd-a0c7-23001bc2fb7c",
+              "name": "image",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6352,
+        48
+      ],
+      "id": "c355f2e6-7229-4960-a3eb-9326faaaefa9",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f56470f2-ae4f-4628-bc38-aea86e67a49e",
+              "name": "title",
+              "value": "={{ $('Merge3').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "2fdf804b-988d-4cfa-8889-12015cd28cb1",
+              "name": "category",
+              "value": "={{ $('Merge3').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "63c0c637-3cf2-4247-96e1-d9775ae44f68",
+              "name": "creation_date",
+              "value": "={{ $('Merge3').item.json.creation_date }}",
+              "type": "string"
+            },
+            {
+              "id": "4a1d7601-dbcc-47df-8035-82c8a892fa8e",
+              "name": "link",
+              "value": "={{ $('Merge3').item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf9793aa-88bf-4b2c-80ed-9b018b27fc31",
+              "name": "image",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6352,
+        208
+      ],
+      "id": "431ee70c-5791-4c19-910b-f7f059f49126",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f56470f2-ae4f-4628-bc38-aea86e67a49e",
+              "name": "title",
+              "value": "={{ $('Merge3').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "2fdf804b-988d-4cfa-8889-12015cd28cb1",
+              "name": "category",
+              "value": "={{ $('Merge3').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "63c0c637-3cf2-4247-96e1-d9775ae44f68",
+              "name": "creation_date",
+              "value": "={{ $('Merge3').item.json.creation_date }}",
+              "type": "string"
+            },
+            {
+              "id": "4a1d7601-dbcc-47df-8035-82c8a892fa8e",
+              "name": "link",
+              "value": "={{ $('Merge3').item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf9793aa-88bf-4b2c-80ed-9b018b27fc31",
+              "name": "image",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6352,
+        384
+      ],
+      "id": "4d3c5939-e68f-4442-aced-fefb32f7680d",
+      "name": "Edit Fields8"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f56470f2-ae4f-4628-bc38-aea86e67a49e",
+              "name": "title",
+              "value": "={{ $('Merge3').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "2fdf804b-988d-4cfa-8889-12015cd28cb1",
+              "name": "category",
+              "value": "={{ $('Merge3').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "63c0c637-3cf2-4247-96e1-d9775ae44f68",
+              "name": "creation_date",
+              "value": "={{ $('Merge3').item.json.creation_date }}",
+              "type": "string"
+            },
+            {
+              "id": "4a1d7601-dbcc-47df-8035-82c8a892fa8e",
+              "name": "link",
+              "value": "={{ $('Merge3').item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf9793aa-88bf-4b2c-80ed-9b018b27fc31",
+              "name": "image",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6352,
+        544
+      ],
+      "id": "b9c2a28c-8742-4511-85eb-a24d233c0c11",
+      "name": "Edit Fields9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f56470f2-ae4f-4628-bc38-aea86e67a49e",
+              "name": "title",
+              "value": "={{ $('Merge3').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "2fdf804b-988d-4cfa-8889-12015cd28cb1",
+              "name": "category",
+              "value": "={{ $('Merge3').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "63c0c637-3cf2-4247-96e1-d9775ae44f68",
+              "name": "creation_date",
+              "value": "={{ $('Merge3').item.json.creation_date }}",
+              "type": "string"
+            },
+            {
+              "id": "4a1d7601-dbcc-47df-8035-82c8a892fa8e",
+              "name": "link",
+              "value": "={{ $('Merge3').item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf9793aa-88bf-4b2c-80ed-9b018b27fc31",
+              "name": "image",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6352,
+        704
+      ],
+      "id": "b62a7808-18b7-4b9f-95ca-a524bcd83f27",
+      "name": "Edit Fields10"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f56470f2-ae4f-4628-bc38-aea86e67a49e",
+              "name": "title",
+              "value": "={{ $('Merge3').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "2fdf804b-988d-4cfa-8889-12015cd28cb1",
+              "name": "category",
+              "value": "={{ $('Merge3').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "63c0c637-3cf2-4247-96e1-d9775ae44f68",
+              "name": "creation_date",
+              "value": "={{ $('Merge3').item.json.creation_date }}",
+              "type": "string"
+            },
+            {
+              "id": "4a1d7601-dbcc-47df-8035-82c8a892fa8e",
+              "name": "link",
+              "value": "={{ $('Merge3').item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf9793aa-88bf-4b2c-80ed-9b018b27fc31",
+              "name": "image",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6352,
+        880
+      ],
+      "id": "4393873b-3308-4597-b454-bde26713a8b4",
+      "name": "Edit Fields11"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f56470f2-ae4f-4628-bc38-aea86e67a49e",
+              "name": "title",
+              "value": "={{ $('Merge3').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "2fdf804b-988d-4cfa-8889-12015cd28cb1",
+              "name": "category",
+              "value": "={{ $('Merge3').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "63c0c637-3cf2-4247-96e1-d9775ae44f68",
+              "name": "creation_date",
+              "value": "={{ $('Merge3').item.json.creation_date }}",
+              "type": "string"
+            },
+            {
+              "id": "4a1d7601-dbcc-47df-8035-82c8a892fa8e",
+              "name": "link",
+              "value": "={{ $('Merge3').item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf9793aa-88bf-4b2c-80ed-9b018b27fc31",
+              "name": "image",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6352,
+        1040
+      ],
+      "id": "0ec8b923-a08b-4b47-9e05-f4f4f954a706",
+      "name": "Edit Fields12"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f56470f2-ae4f-4628-bc38-aea86e67a49e",
+              "name": "title",
+              "value": "={{ $('Merge3').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "2fdf804b-988d-4cfa-8889-12015cd28cb1",
+              "name": "category",
+              "value": "={{ $('Merge3').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "63c0c637-3cf2-4247-96e1-d9775ae44f68",
+              "name": "creation_date",
+              "value": "={{ $('Merge3').item.json.creation_date }}",
+              "type": "string"
+            },
+            {
+              "id": "4a1d7601-dbcc-47df-8035-82c8a892fa8e",
+              "name": "link",
+              "value": "={{ $('Merge3').item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "cf9793aa-88bf-4b2c-80ed-9b018b27fc31",
+              "name": "image",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6352,
+        1216
+      ],
+      "id": "c6bac147-3a9e-4102-a6e3-40beda988633",
+      "name": "Edit Fields13"
+    },
+    {
+      "parameters": {
+        "numberInputs": 8
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        6720,
+        592
+      ],
+      "id": "4f9d910c-214d-4729-abb6-abf638fa1cbb",
+      "name": "Merge4"
     }
   ],
   "pinData": {},
   "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Edit Fields": {
       "main": [
         [
@@ -745,29 +1985,11 @@
         ]
       ]
     },
-    "Loop Over Items": {
-      "main": [
-        [
-          {
-            "node": "Remove Duplicates",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Split Out": {
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -787,7 +2009,6 @@
     },
     "Switch": {
       "main": [
-        [],
         [
           {
             "node": "Diario ElTiempo",
@@ -934,34 +2155,16 @@
         ]
       ]
     },
-    "Loop Over Items2": {
-      "main": [
-        [],
-        [
-          {
-            "node": "Insert documents",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Insert documents": {
       "main": [
-        [
-          {
-            "node": "Loop Over Items2",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Remove Duplicates1": {
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Merge1",
             "type": "main",
             "index": 0
           }
@@ -972,9 +2175,9 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Merge1",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
@@ -983,9 +2186,9 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Merge1",
             "type": "main",
-            "index": 0
+            "index": 2
           }
         ]
       ]
@@ -994,9 +2197,9 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Merge1",
             "type": "main",
-            "index": 0
+            "index": 3
           }
         ]
       ]
@@ -1005,9 +2208,9 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Merge1",
             "type": "main",
-            "index": 0
+            "index": 4
           }
         ]
       ]
@@ -1016,9 +2219,9 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Merge1",
             "type": "main",
-            "index": 0
+            "index": 5
           }
         ]
       ]
@@ -1027,9 +2230,9 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Merge1",
             "type": "main",
-            "index": 0
+            "index": 6
           }
         ]
       ]
@@ -1038,9 +2241,9 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Merge1",
             "type": "main",
-            "index": 0
+            "index": 7
           }
         ]
       ]
@@ -1049,7 +2252,7 @@
       "main": [
         [
           {
-            "node": "Remove Duplicates9",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -1100,18 +2303,560 @@
       "main": [
         [
           {
-            "node": "Loop Over Items2",
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Find documents",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Remove Duplicates9": {
+    "Schedule Trigger": {
       "main": [
         [
           {
-            "node": "If",
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find documents": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "HTML2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "HTML3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "HTML4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "HTML5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "HTML6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "HTML7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML4": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML5": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML6": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML7": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript8": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Edit Fields9": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Edit Fields10": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Edit Fields11": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Edit Fields12": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "Edit Fields13": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 7
+          }
+        ]
+      ]
+    },
+    "Merge4": {
+      "main": [
+        [
+          {
+            "node": "Insert documents",
             "type": "main",
             "index": 0
           }
@@ -1119,11 +2864,11 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "fba3e369-3b44-4c1e-a709-a8fee9c77dd4",
+  "versionId": "8df1d127-f37c-42e2-8ffa-8b0ede79beda",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "dfaa74a960087ae3552b3afefc7f485f943206154cf5ae1a987fac010cf80f86"

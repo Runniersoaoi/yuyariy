@@ -2,17 +2,6 @@
   "name": "Guardado de registros finales",
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -672,
-        -400
-      ],
-      "id": "f650bb71-dd2c-457b-8449-646f04912f3b",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
       "parameters": {
         "collection": "titles",
         "options": {}
@@ -20,8 +9,8 @@
       "type": "n8n-nodes-base.mongoDb",
       "typeVersion": 1.2,
       "position": [
-        -464,
-        -400
+        -432,
+        -240
       ],
       "id": "98a9d9cc-f90e-49a4-83dd-286750ebdc6f",
       "name": "Find documents",
@@ -61,8 +50,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -240,
-        -400
+        384,
+        -384
       ],
       "id": "78db728d-51ae-4679-b9af-433431b2f2a0",
       "name": "Edit Fields"
@@ -94,24 +83,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -48,
-        -400
+        560,
+        -384
       ],
       "id": "61d15973-cef4-4adc-8e53-7d208bccaa68",
       "name": "If"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.removeDuplicates",
-      "typeVersion": 2,
-      "position": [
-        192,
-        -304
-      ],
-      "id": "9f18fe4a-8cff-4985-a460-302d60cdd8ec",
-      "name": "Remove Duplicates"
     },
     {
       "parameters": {
@@ -122,7 +98,7 @@
       "type": "n8n-nodes-base.mongoDb",
       "typeVersion": 1.2,
       "position": [
-        400,
+        1040,
         -304
       ],
       "id": "c86efcda-f461-4feb-af29-30326f6a3f48",
@@ -155,6 +131,18 @@
               "name": "title",
               "value": "={{ $json.title }}",
               "type": "string"
+            },
+            {
+              "id": "ca3d470f-b7b5-4e31-a26c-b2ed9b7417cb",
+              "name": "category",
+              "value": "={{ $json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "94c93391-a831-4b2f-b6a3-34da9e525c5d",
+              "name": "creation_date",
+              "value": "={{ $json.creation_date }}",
+              "type": "string"
             }
           ]
         },
@@ -163,7 +151,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        592,
+        1216,
         -304
       ],
       "id": "faf9b973-2438-4b7f-9e9a-69e678e5cd69",
@@ -173,13 +161,13 @@
       "parameters": {
         "operation": "insert",
         "collection": "notice",
-        "fields": "cluster,link,title,contenido",
+        "fields": "cluster,link,title,content,category,creation_date",
         "options": {}
       },
       "type": "n8n-nodes-base.mongoDb",
       "typeVersion": 1.2,
       "position": [
-        2304,
+        3216,
         -320
       ],
       "id": "3bbb301d-3fec-4f08-aa6e-df85e3d7c3c4",
@@ -394,7 +382,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        784,
+        1408,
         -400
       ],
       "id": "88e083a4-0b89-43a5-a80c-b4771aaa717f",
@@ -408,7 +396,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1264,
+        1888,
         -976
       ],
       "id": "afaf2157-1a0f-49e2-b6c3-706bbb962e9a",
@@ -422,7 +410,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1264,
+        1888,
         -768
       ],
       "id": "07c23046-7d7d-4d8e-a4c0-475484e8571b",
@@ -436,11 +424,12 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1264,
+        1888,
         -576
       ],
       "id": "f789b7bc-2d20-4ca9-8fa7-3fe431327e74",
-      "name": "HTTP Request2"
+      "name": "HTTP Request2",
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -450,11 +439,12 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1264,
+        1888,
         -384
       ],
       "id": "e589ef47-e180-45e5-9a95-3a30c1bae2a3",
-      "name": "HTTP Request3"
+      "name": "HTTP Request3",
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -464,7 +454,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1264,
+        1888,
         -192
       ],
       "id": "0202a7f4-8857-41cb-8b3b-6f38853880c3",
@@ -478,7 +468,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1264,
+        1888,
         0
       ],
       "id": "06750719-03dc-40a8-be44-6ff70c5a28c2",
@@ -492,7 +482,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1264,
+        1888,
         192
       ],
       "id": "c130e278-6477-4c88-8667-d947d7ee7976",
@@ -506,7 +496,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1264,
+        1888,
         400
       ],
       "id": "e6dfd48d-7053-412f-a156-f884ad7cb996",
@@ -529,7 +519,7 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1472,
+        2096,
         -976
       ],
       "id": "f4f4ae5d-4ff1-49bb-a8a9-a8ff11af34b1",
@@ -552,7 +542,7 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1472,
+        2096,
         -768
       ],
       "id": "778a8009-1b6f-4ac1-8cd9-d3f2556fa485",
@@ -575,7 +565,7 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1472,
+        2096,
         -576
       ],
       "id": "f19b9fbd-d315-4735-b074-02636e5d4fa5",
@@ -598,11 +588,12 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1472,
+        2096,
         -384
       ],
       "id": "3ef48f15-6001-4a8d-ae41-ebea150d045f",
-      "name": "HTML3"
+      "name": "HTML3",
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -621,7 +612,7 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1472,
+        2096,
         -192
       ],
       "id": "a9075881-877b-4606-8495-7f42cb999df3",
@@ -644,7 +635,7 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1472,
+        2096,
         0
       ],
       "id": "1dc6902c-8b5a-455f-bae4-e0076cb3dc22",
@@ -657,7 +648,7 @@
           "values": [
             {
               "key": "contenido",
-              "cssSelector": ".content",
+              "cssSelector": ".articulo-main-content-full",
               "returnValue": "html"
             }
           ]
@@ -667,7 +658,7 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1472,
+        2096,
         192
       ],
       "id": "47bf672c-eb78-436c-82e5-74359baf6211",
@@ -690,7 +681,7 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        1472,
+        2096,
         400
       ],
       "id": "eade75ad-5232-4cc4-8157-93c21edf372e",
@@ -720,8 +711,20 @@
             },
             {
               "id": "d8a962e6-425e-4b0b-9a62-ac7c12191f66",
-              "name": "contenido",
-              "value": "={{ $json.contenido }}",
+              "name": "content",
+              "value": "={{ $json.contenido_limpio }}",
+              "type": "string"
+            },
+            {
+              "id": "dbf26e91-8756-4ec5-a7fa-76cc49faccc0",
+              "name": "category",
+              "value": "={{ $('Edit Fields1').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "2b1956f1-1b0d-4565-a6ad-5a8d6eb8fcd7",
+              "name": "creation_date",
+              "value": "={{ $('Edit Fields1').item.json.creation_date }}",
               "type": "string"
             }
           ]
@@ -731,7 +734,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
+        2640,
         -976
       ],
       "id": "3a29483f-6693-4d2e-ae0e-3e25245ebd17",
@@ -761,8 +764,20 @@
             },
             {
               "id": "9c34019b-08a1-4f0d-bebb-9df6ffec1f6e",
-              "name": "contenido",
-              "value": "={{ $json.contenido }}",
+              "name": "content",
+              "value": "={{ $json.contenido_limpio }}",
+              "type": "string"
+            },
+            {
+              "id": "53239d82-75d5-4727-9201-f7189f7f7aef",
+              "name": "category",
+              "value": "={{ $('Edit Fields1').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "a135773d-8026-42ae-87c7-30edb136480c",
+              "name": "creation_date",
+              "value": "={{ $('Edit Fields1').item.json.creation_date }}",
               "type": "string"
             }
           ]
@@ -772,7 +787,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
+        2640,
         -768
       ],
       "id": "fd33de41-f5c7-4d20-871c-7dd7d56e079c",
@@ -802,8 +817,20 @@
             },
             {
               "id": "03f29bb9-7a08-447c-be33-cf9a444d8b7d",
-              "name": "contenido",
-              "value": "={{ $json.contenido }}",
+              "name": "content",
+              "value": "={{ $json.texto_limpio }}",
+              "type": "string"
+            },
+            {
+              "id": "d246e991-dc5f-48f8-9ef7-9bf96ea39880",
+              "name": "category",
+              "value": "={{ $('Edit Fields1').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "0e6458fe-ae0f-4f3e-858d-ed0b770b293c",
+              "name": "creation_date",
+              "value": "={{ $('Edit Fields1').item.json.creation_date }}",
               "type": "string"
             }
           ]
@@ -813,7 +840,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
+        2640,
         -576
       ],
       "id": "44617746-80f6-4269-a83f-6a477c288fa5",
@@ -843,8 +870,20 @@
             },
             {
               "id": "d8026c61-c48e-4113-bc3b-d3bb4429a434",
-              "name": "contenido",
-              "value": "={{ $json.contenido }}",
+              "name": "content",
+              "value": "={{ $json.texto_limpio }}",
+              "type": "string"
+            },
+            {
+              "id": "bc1f78dc-0b98-436e-9512-eb96e8dca285",
+              "name": "category",
+              "value": "={{ $('Edit Fields1').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "ae46a1a5-53e7-4698-be3d-5713fd25f914",
+              "name": "creation_date",
+              "value": "={{ $('Edit Fields1').item.json.creation_date }}",
               "type": "string"
             }
           ]
@@ -854,7 +893,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
+        2640,
         -384
       ],
       "id": "c909c57f-5a16-43b0-a7e7-89cad8addb78",
@@ -884,8 +923,20 @@
             },
             {
               "id": "043d7af7-0e94-4126-82be-df8acf99ebde",
-              "name": "contenido",
-              "value": "={{ $json.contenido }}",
+              "name": "content",
+              "value": "={{ $json.texto_limpio }}",
+              "type": "string"
+            },
+            {
+              "id": "338da168-bbad-4ea2-b239-553b0c360062",
+              "name": "category",
+              "value": "={{ $('Edit Fields1').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "83ae20a5-d833-4597-8a39-7a33b370509d",
+              "name": "creation_date",
+              "value": "={{ $('Edit Fields1').item.json.creation_date }}",
               "type": "string"
             }
           ]
@@ -895,7 +946,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
+        2640,
         -192
       ],
       "id": "999c2e04-4137-4b09-b9ca-a4220543dbd9",
@@ -925,8 +976,20 @@
             },
             {
               "id": "ec70f378-908c-4db8-84da-0efc1c5c0e3f",
-              "name": "contenido",
-              "value": "={{ $json.contenido }}",
+              "name": "content",
+              "value": "={{ $json.contenido_limpio }}",
+              "type": "string"
+            },
+            {
+              "id": "70552219-9851-4c77-9db9-c7886f2be227",
+              "name": "category",
+              "value": "={{ $('Edit Fields1').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "b200ba8f-5cae-4d78-b88e-84403f640f7a",
+              "name": "creation_date",
+              "value": "={{ $('Edit Fields1').item.json.creation_date }}",
               "type": "string"
             }
           ]
@@ -936,7 +999,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
+        2656,
         0
       ],
       "id": "5bfe1ce0-b350-48cd-a27d-ee3c3201f0f5",
@@ -966,8 +1029,20 @@
             },
             {
               "id": "593bd68a-6776-4501-a5f8-2320da46451c",
-              "name": "contenido",
-              "value": "={{ $json.contenido }}",
+              "name": "content",
+              "value": "={{ $json.texto_limpio }}",
+              "type": "string"
+            },
+            {
+              "id": "e718a6d4-22b1-4f04-8b09-168c26f2871f",
+              "name": "category",
+              "value": "={{ $('Edit Fields1').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "25aacaf6-57df-410d-a3ae-a6295b89e3c1",
+              "name": "creation_date",
+              "value": "={{ $('Edit Fields1').item.json.creation_date }}",
               "type": "string"
             }
           ]
@@ -977,7 +1052,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
+        2656,
         192
       ],
       "id": "62fc687d-99c2-48f6-a9de-0a26288e6405",
@@ -1007,8 +1082,20 @@
             },
             {
               "id": "7635ea88-f5b9-4965-b776-a50b47827b6c",
-              "name": "contenido",
-              "value": "={{ $json.contenido }}",
+              "name": "content",
+              "value": "={{ $json.texto_limpio }}",
+              "type": "string"
+            },
+            {
+              "id": "6305fd0f-f4af-463d-9c5e-28e7b4d901ea",
+              "name": "category",
+              "value": "={{ $('Edit Fields1').item.json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "c55c4f65-a744-401f-8c33-8bd5c0ecdc16",
+              "name": "creation_date",
+              "value": "={{ $('Edit Fields1').item.json.creation_date }}",
               "type": "string"
             }
           ]
@@ -1018,7 +1105,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
+        2656,
         400
       ],
       "id": "efb27dad-d1b6-4616-aea3-65f4f8605e09",
@@ -1031,7 +1118,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1936,
+        3008,
         -416
       ],
       "id": "41525553-8640-4db4-a0e4-41de9a47f4c5",
@@ -1039,38 +1126,226 @@
     },
     {
       "parameters": {
-        "operation": "removeItemsSeenInPreviousExecutions",
-        "dedupeValue": "={{ $json.link }}",
         "options": {}
       },
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        2112,
-        -320
+        848,
+        -304
       ],
-      "id": "d0cf2f38-d996-47c5-ae58-6432e472a1c7",
-      "name": "Remove Duplicates2"
+      "id": "9f18fe4a-8cff-4985-a460-302d60cdd8ec",
+      "name": "Remove Duplicates"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Función para limpiar texto HTML y codificación rota\nfunction cleanText(html) {\n  if (!html) return \"\";\n\n  let text = html;\n\n  // 1️⃣ Eliminar etiquetas HTML, scripts y estilos\n  text = text.replace(/<script[\\s\\S]*?>[\\s\\S]*?<\\/script>/gi, \"\");\n  text = text.replace(/<style[\\s\\S]*?>[\\s\\S]*?<\\/style>/gi, \"\");\n  text = text.replace(/<[^>]+>/g, \" \");\n\n  // 2️⃣ Decodificar entidades HTML comunes y numéricas\n  text = text.replace(/&#(\\d+);/g, (_, code) => String.fromCharCode(code));\n  text = text.replace(/&([a-zA-Z]+);/g, (match, entity) => {\n    const map = {\n      amp: \"&\", lt: \"<\", gt: \">\", quot: '\"', apos: \"'\",\n      aacute: \"á\", eacute: \"é\", iacute: \"í\", oacute: \"ó\", uacute: \"ú\",\n      Aacute: \"Á\", Eacute: \"É\", Iacute: \"Í\", Oacute: \"Ó\", Uacute: \"Ú\",\n      ntilde: \"ñ\", Ntilde: \"Ñ\", nbsp: \" \"\n    };\n    return map[entity] || match;\n  });\n\n  // 3️⃣ Reemplazar caracteres dañados comunes\n  const fixMap = {\n    \"Ã¡\": \"á\", \"Ã©\": \"é\", \"Ã­\": \"í\", \"Ã³\": \"ó\", \"Ãº\": \"ú\",\n    \"Ã\": \"Á\", \"Ã‰\": \"É\", \"Ã\": \"Í\", \"Ã“\": \"Ó\", \"Ãš\": \"Ú\",\n    \"Ã±\": \"ñ\", \"Ã‘\": \"Ñ\", \"Â\": \"\", \"�\": \"\"\n  };\n  for (const [wrong, right] of Object.entries(fixMap)) {\n    text = text.replace(new RegExp(wrong, \"g\"), right);\n  }\n\n  // 4️⃣ Eliminar URLs, emojis, símbolos raros y múltiples espacios\n  text = text.replace(/https?:\\/\\/\\S+/g, \" \");\n  text = text.replace(/[^\\p{L}\\p{N}\\p{P}\\p{Z}]/gu, \" \"); // elimina emojis y símbolos\n  text = text.replace(/\\s+/g, \" \").trim();\n\n  return text;\n}\n\n// Procesar todos los items del flujo\nfor (const item of $input.all()) {\n  const contenido = item.json.contenido || \"\";\n  item.json.contenido_limpio = cleanText(contenido);\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        -976
+      ],
+      "id": "51fe22d2-3208-4e41-b347-06339c4bfe4d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanText(html) {\n  if (!html) return \"\";\n\n  let text = html;\n\n  // 1️⃣ Quitar saltos, tabulaciones y comillas escapadas\n  text = text.replace(/\\\\n|\\\\t|\\\\r/g, \" \");\n  text = text.replace(/\\\\\"/g, '\"').replace(/\\\\'/g, \"'\");\n  \n  // 2️⃣ Eliminar secciones de script, style, JSON, etc.\n  text = text.replace(/<script[\\s\\S]*?<\\/script>/gi, \"\");\n  text = text.replace(/<style[\\s\\S]*?<\\/style>/gi, \"\");\n  text = text.replace(/var\\s+\\w+\\s*=\\s*\\[[\\s\\S]*?\\];?/gi, \"\"); // arrays JS como el de \"items\"\n  text = text.replace(/ga\\([\\s\\S]*?\\);/gi, \"\");\n  text = text.replace(/console\\.log\\([\\s\\S]*?\\);/gi, \"\");\n  \n  // 3️⃣ Eliminar todas las etiquetas HTML\n  text = text.replace(/<[^>]+>/g, \" \");\n\n  // 4️⃣ Decodificar entidades HTML comunes\n  text = text.replace(/&#(\\d+);/g, (_, code) => String.fromCharCode(code));\n  text = text.replace(/&([a-zA-Z]+);/g, (match, entity) => {\n    const map = {\n      amp: \"&\", lt: \"<\", gt: \">\", quot: '\"', apos: \"'\",\n      aacute: \"á\", eacute: \"é\", iacute: \"í\", oacute: \"ó\", uacute: \"ú\",\n      Aacute: \"Á\", Eacute: \"É\", Iacute: \"Í\", Oacute: \"Ó\", Uacute: \"Ú\",\n      ntilde: \"ñ\", Ntilde: \"Ñ\", nbsp: \" \"\n    };\n    return map[entity] || match;\n  });\n\n  // 5️⃣ Corregir caracteres mal codificados\n  const fixMap = {\n    \"Ã¡\": \"á\", \"Ã©\": \"é\", \"Ã­\": \"í\", \"Ã³\": \"ó\", \"Ãº\": \"ú\",\n    \"Ã\": \"Á\", \"Ã‰\": \"É\", \"Ã\": \"Í\", \"Ã“\": \"Ó\", \"Ãš\": \"Ú\",\n    \"Ã±\": \"ñ\", \"Ã‘\": \"Ñ\", \"Â\": \"\", \"�\": \"\"\n  };\n  for (const [wrong, right] of Object.entries(fixMap)) {\n    text = text.replace(new RegExp(wrong, \"g\"), right);\n  }\n\n  // 6️⃣ Eliminar URLs, emojis, símbolos no imprimibles\n  text = text.replace(/https?:\\/\\/\\S+/g, \" \");\n  text = text.replace(/[^\\p{L}\\p{N}\\p{P}\\p{Z}]/gu, \" \");\n  \n  // 7️⃣ Normalizar espacios y signos de puntuación\n  text = text.replace(/\\s+/g, \" \").replace(/\\s*([.,!?;:])\\s*/g, \"$1 \").trim();\n\n  return text;\n}\n\n// Procesar todos los items del flujo\nfor (const item of $input.all()) {\n  const contenido = item.json.contenido || \"\";\n  item.json.contenido_limpio = cleanText(contenido);\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        -768
+      ],
+      "id": "5455f8ff-790b-41c0-9cc4-d2702850ad9f",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanText(html) {\n  if (!html) return \"\";\n\n  let text = html;\n\n  // 1️⃣ Normalizar codificación y eliminar escapes\n  text = text.replace(/\\\\[ntr]/g, \" \");\n  text = text.replace(/\\\\\"/g, '\"').replace(/\\\\'/g, \"'\");\n  text = text.replace(/&nbsp;|&#160;/g, \" \");\n\n  // 2️⃣ Eliminar bloques JS y CSS (muy agresivo)\n  text = text\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, \" \")\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, \" \")\n    .replace(/window\\.addEventListener[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/googletag\\.[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/gptadslots\\[[\\s\\S]*?\\];/gi, \" \")\n    .replace(/sizeMapping\\([\\s\\S]*?\\)\\.build\\(\\);/gi, \" \")\n    .replace(/screen\\s+and\\s+\\(.*?\\)\\s*\\{/gi, \" \")\n    .replace(/\\.[a-zA-Z0-9_-]+\\s*\\{[\\s\\S]*?\\}/g, \" \")\n    .replace(/var\\s+\\w+\\s*=\\s*[\\s\\S]*?;/g, \" \");\n\n  // 3️⃣ Eliminar etiquetas HTML\n  text = text.replace(/<[^>]+>/g, \" \");\n\n  // 4️⃣ Quitar URLs, nombres de clases, CSS inline y residuos\n  text = text\n    .replace(/https?:\\/\\/\\S+/g, \" \")\n    .replace(/[{}();<>[\\]]/g, \" \")\n    .replace(/\\b(addService|defineSlot|display|cmd|push|function|return|if|else|window|document)\\b/gi, \" \")\n    .replace(/\\b(slotvideoad|slotinline|slotVideoinread2|mappinginline|mappingvideoad|slotvideoinread)\\b/gi, \" \");\n\n  // 5️⃣ Eliminar texto duplicado o con patrones técnicos\n  text = text.replace(/TE RECOMENDAMOS[\\s\\S]*$/i, \" \");\n  text = text.replace(/PUEDES VER[\\s\\S]*$/i, \" \");\n\n  // 6️⃣ Decodificar entidades HTML\n  text = text.replace(/&#(\\d+);/g, (_, code) => String.fromCharCode(code));\n  const map = {\n    amp: \"&\", lt: \"<\", gt: \">\", quot: '\"', apos: \"'\", aacute: \"á\",\n    eacute: \"é\", iacute: \"í\", oacute: \"ó\", uacute: \"ú\", ntilde: \"ñ\",\n    Aacute: \"Á\", Eacute: \"É\", Iacute: \"Í\", Oacute: \"Ó\", Uacute: \"Ú\",\n    Ntilde: \"Ñ\"\n  };\n  text = text.replace(/&([a-zA-Z]+);/g, (m, e) => map[e] || m);\n\n  // 7️⃣ Corregir malcodificaciones comunes\n  const fixMap = {\n    \"Ã¡\": \"á\", \"Ã©\": \"é\", \"Ã­\": \"í\", \"Ã³\": \"ó\", \"Ãº\": \"ú\",\n    \"Ã\": \"Á\", \"Ã‰\": \"É\", \"Ã\": \"Í\", \"Ã“\": \"Ó\", \"Ãš\": \"Ú\",\n    \"Ã±\": \"ñ\", \"Ã‘\": \"Ñ\", \"Â\": \"\", \"�\": \"\"\n  };\n  for (const [wrong, right] of Object.entries(fixMap)) {\n    text = text.replace(new RegExp(wrong, \"g\"), right);\n  }\n\n  // 8️⃣ Quitar números y símbolos extraños\n  text = text.replace(/\\d{2,4}\\s*(px|em|%|vh|vw)?/gi, \" \");\n  text = text.replace(/[^\\p{L}\\p{N}\\p{P}\\p{Z}]/gu, \" \");\n\n  // 9️⃣ Compactar espacios y limpiar signos\n  text = text.replace(/\\s+/g, \" \").replace(/\\s*([.,!?;:])\\s*/g, \"$1 \").trim();\n\n  return text;\n}\n\n// Aplicar limpieza a todos los items\nfor (const item of $input.all()) {\n  const contenido = item.json.contenido || \"\";\n  const titulo = item.json.titulo || \"\";\n  item.json.texto_limpio = cleanText(titulo + \". \" + contenido);\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        -576
+      ],
+      "id": "82678aa2-c25c-4d7f-a1bd-3deeb2e04166",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanText(html) {\n  if (!html) return \"\";\n\n  let text = html;\n\n  // 1️⃣ Normalizar codificación y eliminar escapes\n  text = text.replace(/\\\\[ntr]/g, \" \");\n  text = text.replace(/\\\\\"/g, '\"').replace(/\\\\'/g, \"'\");\n  text = text.replace(/&nbsp;|&#160;/g, \" \");\n\n  // 2️⃣ Eliminar bloques JS y CSS (muy agresivo)\n  text = text\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, \" \")\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, \" \")\n    .replace(/window\\.addEventListener[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/googletag\\.[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/gptadslots\\[[\\s\\S]*?\\];/gi, \" \")\n    .replace(/sizeMapping\\([\\s\\S]*?\\)\\.build\\(\\);/gi, \" \")\n    .replace(/screen\\s+and\\s+\\(.*?\\)\\s*\\{/gi, \" \")\n    .replace(/\\.[a-zA-Z0-9_-]+\\s*\\{[\\s\\S]*?\\}/g, \" \")\n    .replace(/var\\s+\\w+\\s*=\\s*[\\s\\S]*?;/g, \" \");\n\n  // 3️⃣ Eliminar etiquetas HTML\n  text = text.replace(/<[^>]+>/g, \" \");\n\n  // 4️⃣ Quitar URLs, nombres de clases, CSS inline y residuos\n  text = text\n    .replace(/https?:\\/\\/\\S+/g, \" \")\n    .replace(/[{}();<>[\\]]/g, \" \")\n    .replace(/\\b(addService|defineSlot|display|cmd|push|function|return|if|else|window|document)\\b/gi, \" \")\n    .replace(/\\b(slotvideoad|slotinline|slotVideoinread2|mappinginline|mappingvideoad|slotvideoinread)\\b/gi, \" \");\n\n  // 5️⃣ Eliminar texto duplicado o con patrones técnicos\n  text = text.replace(/TE RECOMENDAMOS[\\s\\S]*$/i, \" \");\n  text = text.replace(/PUEDES VER[\\s\\S]*$/i, \" \");\n\n  // 6️⃣ Decodificar entidades HTML\n  text = text.replace(/&#(\\d+);/g, (_, code) => String.fromCharCode(code));\n  const map = {\n    amp: \"&\", lt: \"<\", gt: \">\", quot: '\"', apos: \"'\", aacute: \"á\",\n    eacute: \"é\", iacute: \"í\", oacute: \"ó\", uacute: \"ú\", ntilde: \"ñ\",\n    Aacute: \"Á\", Eacute: \"É\", Iacute: \"Í\", Oacute: \"Ó\", Uacute: \"Ú\",\n    Ntilde: \"Ñ\"\n  };\n  text = text.replace(/&([a-zA-Z]+);/g, (m, e) => map[e] || m);\n\n  // 7️⃣ Corregir malcodificaciones comunes\n  const fixMap = {\n    \"Ã¡\": \"á\", \"Ã©\": \"é\", \"Ã­\": \"í\", \"Ã³\": \"ó\", \"Ãº\": \"ú\",\n    \"Ã\": \"Á\", \"Ã‰\": \"É\", \"Ã\": \"Í\", \"Ã“\": \"Ó\", \"Ãš\": \"Ú\",\n    \"Ã±\": \"ñ\", \"Ã‘\": \"Ñ\", \"Â\": \"\", \"�\": \"\"\n  };\n  for (const [wrong, right] of Object.entries(fixMap)) {\n    text = text.replace(new RegExp(wrong, \"g\"), right);\n  }\n\n  // 8️⃣ Quitar números y símbolos extraños\n  text = text.replace(/\\d{2,4}\\s*(px|em|%|vh|vw)?/gi, \" \");\n  text = text.replace(/[^\\p{L}\\p{N}\\p{P}\\p{Z}]/gu, \" \");\n\n  // 9️⃣ Compactar espacios y limpiar signos\n  text = text.replace(/\\s+/g, \" \").replace(/\\s*([.,!?;:])\\s*/g, \"$1 \").trim();\n\n  return text;\n}\n\n// Aplicar limpieza a todos los items\nfor (const item of $input.all()) {\n  const contenido = item.json.contenido || \"\";\n  const titulo = item.json.titulo || \"\";\n  item.json.texto_limpio = cleanText(titulo + \". \" + contenido);\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        -384
+      ],
+      "id": "508b761e-f379-4152-86c7-f2831cc4fbda",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanText(html) {\n  if (!html) return \"\";\n\n  let text = html;\n\n  // 1️⃣ Normalizar codificación y eliminar escapes\n  text = text.replace(/\\\\[ntr]/g, \" \");\n  text = text.replace(/\\\\\"/g, '\"').replace(/\\\\'/g, \"'\");\n  text = text.replace(/&nbsp;|&#160;/g, \" \");\n\n  // 2️⃣ Eliminar bloques JS y CSS (muy agresivo)\n  text = text\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, \" \")\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, \" \")\n    .replace(/window\\.addEventListener[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/googletag\\.[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/gptadslots\\[[\\s\\S]*?\\];/gi, \" \")\n    .replace(/sizeMapping\\([\\s\\S]*?\\)\\.build\\(\\);/gi, \" \")\n    .replace(/screen\\s+and\\s+\\(.*?\\)\\s*\\{/gi, \" \")\n    .replace(/\\.[a-zA-Z0-9_-]+\\s*\\{[\\s\\S]*?\\}/g, \" \")\n    .replace(/var\\s+\\w+\\s*=\\s*[\\s\\S]*?;/g, \" \");\n\n  // 3️⃣ Eliminar etiquetas HTML\n  text = text.replace(/<[^>]+>/g, \" \");\n\n  // 4️⃣ Quitar URLs, nombres de clases, CSS inline y residuos\n  text = text\n    .replace(/https?:\\/\\/\\S+/g, \" \")\n    .replace(/[{}();<>[\\]]/g, \" \")\n    .replace(/\\b(addService|defineSlot|display|cmd|push|function|return|if|else|window|document)\\b/gi, \" \")\n    .replace(/\\b(slotvideoad|slotinline|slotVideoinread2|mappinginline|mappingvideoad|slotvideoinread)\\b/gi, \" \");\n\n  // 5️⃣ Eliminar texto duplicado o con patrones técnicos\n  text = text.replace(/TE RECOMENDAMOS[\\s\\S]*$/i, \" \");\n  text = text.replace(/PUEDES VER[\\s\\S]*$/i, \" \");\n\n  // 6️⃣ Decodificar entidades HTML\n  text = text.replace(/&#(\\d+);/g, (_, code) => String.fromCharCode(code));\n  const map = {\n    amp: \"&\", lt: \"<\", gt: \">\", quot: '\"', apos: \"'\", aacute: \"á\",\n    eacute: \"é\", iacute: \"í\", oacute: \"ó\", uacute: \"ú\", ntilde: \"ñ\",\n    Aacute: \"Á\", Eacute: \"É\", Iacute: \"Í\", Oacute: \"Ó\", Uacute: \"Ú\",\n    Ntilde: \"Ñ\"\n  };\n  text = text.replace(/&([a-zA-Z]+);/g, (m, e) => map[e] || m);\n\n  // 7️⃣ Corregir malcodificaciones comunes\n  const fixMap = {\n    \"Ã¡\": \"á\", \"Ã©\": \"é\", \"Ã­\": \"í\", \"Ã³\": \"ó\", \"Ãº\": \"ú\",\n    \"Ã\": \"Á\", \"Ã‰\": \"É\", \"Ã\": \"Í\", \"Ã“\": \"Ó\", \"Ãš\": \"Ú\",\n    \"Ã±\": \"ñ\", \"Ã‘\": \"Ñ\", \"Â\": \"\", \"�\": \"\"\n  };\n  for (const [wrong, right] of Object.entries(fixMap)) {\n    text = text.replace(new RegExp(wrong, \"g\"), right);\n  }\n\n  // 8️⃣ Quitar números y símbolos extraños\n  text = text.replace(/\\d{2,4}\\s*(px|em|%|vh|vw)?/gi, \" \");\n  text = text.replace(/[^\\p{L}\\p{N}\\p{P}\\p{Z}]/gu, \" \");\n\n  // 9️⃣ Compactar espacios y limpiar signos\n  text = text.replace(/\\s+/g, \" \").replace(/\\s*([.,!?;:])\\s*/g, \"$1 \").trim();\n\n  return text;\n}\n\n// Aplicar limpieza a todos los items\nfor (const item of $input.all()) {\n  const contenido = item.json.contenido || \"\";\n  const titulo = item.json.titulo || \"\";\n  item.json.texto_limpio = cleanText(titulo + \". \" + contenido);\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        -192
+      ],
+      "id": "a0b42794-fba0-42c0-ba1e-10b20417b37a",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recorremos todos los items de entrada\nfor (const item of $input.all()) {\n  let texto = item.json.contenido || \"\";\n\n  // 1️⃣ Eliminar todas las etiquetas HTML\n  texto = texto.replace(/<[^>]+>/g, \" \");\n\n  // 2️⃣ Decodificar entidades HTML comunes\n  const entidades = {\n    \"&aacute;\": \"á\", \"&eacute;\": \"é\", \"&iacute;\": \"í\",\n    \"&oacute;\": \"ó\", \"&uacute;\": \"ú\", \"&ntilde;\": \"ñ\",\n    \"&Aacute;\": \"Á\", \"&Eacute;\": \"É\", \"&Iacute;\": \"Í\",\n    \"&Oacute;\": \"Ó\", \"&Uacute;\": \"Ú\", \"&Ntilde;\": \"Ñ\",\n    \"&quot;\": \"\\\"\", \"&amp;\": \"&\", \"&lt;\": \"<\", \"&gt;\": \">\",\n    \"&nbsp;\": \" \"\n  };\n\n  texto = texto.replace(/&[a-zA-Z]+;/g, match => entidades[match] || match);\n\n  // 3️⃣ Quitar URLs, hashtags, menciones, scripts o códigos embebidos\n  texto = texto.replace(/https?:\\/\\/\\S+/g, \"\"); // URLs\n  texto = texto.replace(/@\\w+/g, \"\");           // menciones\n  texto = texto.replace(/#\\w+/g, \"\");           // hashtags\n  texto = texto.replace(/<script[\\s\\S]*?>[\\s\\S]*?<\\/script>/gi, \"\"); // scripts\n\n  // 4️⃣ Corregir codificaciones dañadas comunes (casos típicos de latin1 → utf8)\n  texto = texto\n    .replace(/�/g, \"ñ\") // Comisi�n → Comisión (aproximación)\n    .replace(/\\s+/g, \" \") // Espacios extra\n    .trim();\n\n  // Guardamos el texto limpio en un nuevo campo\n  item.json.contenido_limpio = texto;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        0
+      ],
+      "id": "adf951ea-093e-41f6-8d6a-aff542015e1d",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanText(html) {\n  if (!html) return \"\";\n\n  let text = html;\n\n  // 1️⃣ Normalizar codificación y eliminar escapes\n  text = text.replace(/\\\\[ntr]/g, \" \");\n  text = text.replace(/\\\\\"/g, '\"').replace(/\\\\'/g, \"'\");\n  text = text.replace(/&nbsp;|&#160;/g, \" \");\n\n  // 2️⃣ Eliminar bloques JS y CSS (muy agresivo)\n  text = text\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, \" \")\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, \" \")\n    .replace(/window\\.addEventListener[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/googletag\\.[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/gptadslots\\[[\\s\\S]*?\\];/gi, \" \")\n    .replace(/sizeMapping\\([\\s\\S]*?\\)\\.build\\(\\);/gi, \" \")\n    .replace(/screen\\s+and\\s+\\(.*?\\)\\s*\\{/gi, \" \")\n    .replace(/\\.[a-zA-Z0-9_-]+\\s*\\{[\\s\\S]*?\\}/g, \" \")\n    .replace(/var\\s+\\w+\\s*=\\s*[\\s\\S]*?;/g, \" \");\n\n  // 3️⃣ Eliminar etiquetas HTML\n  text = text.replace(/<[^>]+>/g, \" \");\n\n  // 4️⃣ Quitar URLs, nombres de clases, CSS inline y residuos\n  text = text\n    .replace(/https?:\\/\\/\\S+/g, \" \")\n    .replace(/[{}();<>[\\]]/g, \" \")\n    .replace(/\\b(addService|defineSlot|display|cmd|push|function|return|if|else|window|document)\\b/gi, \" \")\n    .replace(/\\b(slotvideoad|slotinline|slotVideoinread2|mappinginline|mappingvideoad|slotvideoinread)\\b/gi, \" \");\n\n  // 5️⃣ Eliminar texto duplicado o con patrones técnicos\n  text = text.replace(/TE RECOMENDAMOS[\\s\\S]*$/i, \" \");\n  text = text.replace(/PUEDES VER[\\s\\S]*$/i, \" \");\n\n  // 6️⃣ Decodificar entidades HTML\n  text = text.replace(/&#(\\d+);/g, (_, code) => String.fromCharCode(code));\n  const map = {\n    amp: \"&\", lt: \"<\", gt: \">\", quot: '\"', apos: \"'\", aacute: \"á\",\n    eacute: \"é\", iacute: \"í\", oacute: \"ó\", uacute: \"ú\", ntilde: \"ñ\",\n    Aacute: \"Á\", Eacute: \"É\", Iacute: \"Í\", Oacute: \"Ó\", Uacute: \"Ú\",\n    Ntilde: \"Ñ\"\n  };\n  text = text.replace(/&([a-zA-Z]+);/g, (m, e) => map[e] || m);\n\n  // 7️⃣ Corregir malcodificaciones comunes\n  const fixMap = {\n    \"Ã¡\": \"á\", \"Ã©\": \"é\", \"Ã­\": \"í\", \"Ã³\": \"ó\", \"Ãº\": \"ú\",\n    \"Ã\": \"Á\", \"Ã‰\": \"É\", \"Ã\": \"Í\", \"Ã“\": \"Ó\", \"Ãš\": \"Ú\",\n    \"Ã±\": \"ñ\", \"Ã‘\": \"Ñ\", \"Â\": \"\", \"�\": \"\"\n  };\n  for (const [wrong, right] of Object.entries(fixMap)) {\n    text = text.replace(new RegExp(wrong, \"g\"), right);\n  }\n\n  // 8️⃣ Quitar números y símbolos extraños\n  text = text.replace(/\\d{2,4}\\s*(px|em|%|vh|vw)?/gi, \" \");\n  text = text.replace(/[^\\p{L}\\p{N}\\p{P}\\p{Z}]/gu, \" \");\n\n  // 9️⃣ Compactar espacios y limpiar signos\n  text = text.replace(/\\s+/g, \" \").replace(/\\s*([.,!?;:])\\s*/g, \"$1 \").trim();\n\n  return text;\n}\n\n// Aplicar limpieza a todos los items\nfor (const item of $input.all()) {\n  const contenido = item.json.contenido || \"\";\n  const titulo = item.json.titulo || \"\";\n  item.json.texto_limpio = cleanText(titulo + \". \" + contenido);\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        192
+      ],
+      "id": "426dfcc6-1a4f-4090-9232-8f599054948d",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanText(html) {\n  if (!html) return \"\";\n\n  let text = html;\n\n  // 1️⃣ Normalizar codificación y eliminar escapes\n  text = text.replace(/\\\\[ntr]/g, \" \");\n  text = text.replace(/\\\\\"/g, '\"').replace(/\\\\'/g, \"'\");\n  text = text.replace(/&nbsp;|&#160;/g, \" \");\n\n  // 2️⃣ Eliminar bloques JS y CSS (muy agresivo)\n  text = text\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, \" \")\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, \" \")\n    .replace(/window\\.addEventListener[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/googletag\\.[\\s\\S]*?(?=<|$)/gi, \" \")\n    .replace(/gptadslots\\[[\\s\\S]*?\\];/gi, \" \")\n    .replace(/sizeMapping\\([\\s\\S]*?\\)\\.build\\(\\);/gi, \" \")\n    .replace(/screen\\s+and\\s+\\(.*?\\)\\s*\\{/gi, \" \")\n    .replace(/\\.[a-zA-Z0-9_-]+\\s*\\{[\\s\\S]*?\\}/g, \" \")\n    .replace(/var\\s+\\w+\\s*=\\s*[\\s\\S]*?;/g, \" \");\n\n  // 3️⃣ Eliminar etiquetas HTML\n  text = text.replace(/<[^>]+>/g, \" \");\n\n  // 4️⃣ Quitar URLs, nombres de clases, CSS inline y residuos\n  text = text\n    .replace(/https?:\\/\\/\\S+/g, \" \")\n    .replace(/[{}();<>[\\]]/g, \" \")\n    .replace(/\\b(addService|defineSlot|display|cmd|push|function|return|if|else|window|document)\\b/gi, \" \")\n    .replace(/\\b(slotvideoad|slotinline|slotVideoinread2|mappinginline|mappingvideoad|slotvideoinread)\\b/gi, \" \");\n\n  // 5️⃣ Eliminar texto duplicado o con patrones técnicos\n  text = text.replace(/TE RECOMENDAMOS[\\s\\S]*$/i, \" \");\n  text = text.replace(/PUEDES VER[\\s\\S]*$/i, \" \");\n\n  // 6️⃣ Decodificar entidades HTML\n  text = text.replace(/&#(\\d+);/g, (_, code) => String.fromCharCode(code));\n  const map = {\n    amp: \"&\", lt: \"<\", gt: \">\", quot: '\"', apos: \"'\", aacute: \"á\",\n    eacute: \"é\", iacute: \"í\", oacute: \"ó\", uacute: \"ú\", ntilde: \"ñ\",\n    Aacute: \"Á\", Eacute: \"É\", Iacute: \"Í\", Oacute: \"Ó\", Uacute: \"Ú\",\n    Ntilde: \"Ñ\"\n  };\n  text = text.replace(/&([a-zA-Z]+);/g, (m, e) => map[e] || m);\n\n  // 7️⃣ Corregir malcodificaciones comunes\n  const fixMap = {\n    \"Ã¡\": \"á\", \"Ã©\": \"é\", \"Ã­\": \"í\", \"Ã³\": \"ó\", \"Ãº\": \"ú\",\n    \"Ã\": \"Á\", \"Ã‰\": \"É\", \"Ã\": \"Í\", \"Ã“\": \"Ó\", \"Ãš\": \"Ú\",\n    \"Ã±\": \"ñ\", \"Ã‘\": \"Ñ\", \"Â\": \"\", \"�\": \"\"\n  };\n  for (const [wrong, right] of Object.entries(fixMap)) {\n    text = text.replace(new RegExp(wrong, \"g\"), right);\n  }\n\n  // 8️⃣ Quitar números y símbolos extraños\n  text = text.replace(/\\d{2,4}\\s*(px|em|%|vh|vw)?/gi, \" \");\n  text = text.replace(/[^\\p{L}\\p{N}\\p{P}\\p{Z}]/gu, \" \");\n\n  // 9️⃣ Compactar espacios y limpiar signos\n  text = text.replace(/\\s+/g, \" \").replace(/\\s*([.,!?;:])\\s*/g, \"$1 \").trim();\n\n  return text;\n}\n\n// Aplicar limpieza a todos los items\nfor (const item of $input.all()) {\n  const contenido = item.json.contenido || \"\";\n  const titulo = item.json.titulo || \"\";\n  item.json.texto_limpio = cleanText(titulo + \". \" + contenido);\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        400
+      ],
+      "id": "35dcffe5-d88a-427e-9979-3471bea1bc83",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 12,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -672,
+        -384
+      ],
+      "id": "650cf0f7-957c-45e4-ae30-e930ac0e7a1f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "collection": "notice",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        -432,
+        -560
+      ],
+      "id": "5ffa658d-f470-4cf2-b004-0c0c301b617d",
+      "name": "Find documents2",
+      "credentials": {
+        "mongoDb": {
+          "id": "44uvjFS2nQmOBnWb",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        0,
+        -384
+      ],
+      "id": "7ffa574a-bfd3-46be-b8b1-4c462828e024",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener todos los elementos del nodo anterior\nconst items = $input.all();\n\n// Crear un mapa con la cantidad de veces que aparece cada título\nconst counts = items.reduce((acc, item) => {\n  const title = item.json.title;\n  acc[title] = (acc[title] || 0) + 1;\n  return acc;\n}, {});\n\n// Filtrar solo los items cuyo título aparece exactamente una vez\nreturn items.filter(item => counts[item.json.title] === 1);\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        -384
+      ],
+      "id": "30911219-2d6b-4ba7-9a0d-dd7f26bb971d",
+      "name": "Code in JavaScript8"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4efbb4d5-5187-428e-991e-eb530897383a",
+              "leftValue": "={{ $json.cluster }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -224,
+        -240
+      ],
+      "id": "faf5591a-2976-42c2-9cc9-ffef732eaef6",
+      "name": "If1"
     }
   ],
   "pinData": {},
   "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Find documents",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Find documents": {
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "If1",
             "type": "main",
             "index": 0
           }
@@ -1094,17 +1369,6 @@
         [
           {
             "node": "Remove Duplicates",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Remove Duplicates": {
-      "main": [
-        [
-          {
-            "node": "Find documents1",
             "type": "main",
             "index": 0
           }
@@ -1285,7 +1549,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields2",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -1296,7 +1560,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields3",
+            "node": "Code in JavaScript1",
             "type": "main",
             "index": 0
           }
@@ -1307,7 +1571,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields4",
+            "node": "Code in JavaScript2",
             "type": "main",
             "index": 0
           }
@@ -1318,7 +1582,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields5",
+            "node": "Code in JavaScript3",
             "type": "main",
             "index": 0
           }
@@ -1329,7 +1593,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields6",
+            "node": "Code in JavaScript4",
             "type": "main",
             "index": 0
           }
@@ -1340,7 +1604,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields7",
+            "node": "Code in JavaScript5",
             "type": "main",
             "index": 0
           }
@@ -1351,7 +1615,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields8",
+            "node": "Code in JavaScript6",
             "type": "main",
             "index": 0
           }
@@ -1362,7 +1626,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields9",
+            "node": "Code in JavaScript7",
             "type": "main",
             "index": 0
           }
@@ -1461,20 +1725,168 @@
       "main": [
         [
           {
-            "node": "Remove Duplicates2",
+            "node": "Insert documents",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Remove Duplicates2": {
+    "Remove Duplicates": {
       "main": [
         [
           {
-            "node": "Insert documents",
+            "node": "Find documents1",
             "type": "main",
             "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Find documents",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Find documents2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find documents2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript8": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
           }
         ]
       ]
@@ -1484,7 +1896,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "2b651c78-f5a3-4326-8d0c-0870d51bdc42",
+  "versionId": "cc6660f5-a1a3-4653-9c8e-86bbc82e744d",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "dfaa74a960087ae3552b3afefc7f485f943206154cf5ae1a987fac010cf80f86"
