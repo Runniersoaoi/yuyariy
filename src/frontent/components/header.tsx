@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useAuth } from "@/context/AuthContext";
 
 const categories = [
   { name: "Mundo", href: "/category/mundo" },
@@ -12,12 +13,14 @@ const categories = [
 ];
 
 export function Header() {
+  const { user, logout, isAuthenticated } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex h-16 items-center justify-between">
           <Link
-            href="/"
+            href={"/platform"}
             className="font-serif text-3xl font-bold tracking-tight text-foreground"
           >
             Yuyariy
@@ -34,6 +37,37 @@ export function Header() {
                 {category.name}
               </Link>
             ))}
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="/profile"
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Mi perfil
+                </Link>
+                <button
+                  onClick={logout}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Iniciar Sesión
+                </Link>
+                <Link
+                  href="/register"
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Registrarse
+                </Link>
+              </>
+            )}
           </nav>
 
           {/* Mobile Navigation */}
@@ -55,6 +89,38 @@ export function Header() {
                     {category.name}
                   </Link>
                 ))}
+                <hr className="my-4" />
+                {isAuthenticated ? (
+                  <>
+                    <Link
+                      href="/profile"
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    >
+                      Mi Perfil
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors text-left"
+                    >
+                      Cerrar sesión
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    >
+                      Register
+                    </Link>
+                  </>
+                )}
               </nav>
             </SheetContent>
           </Sheet>
