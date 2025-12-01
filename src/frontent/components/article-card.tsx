@@ -56,7 +56,7 @@ export function ArticleCard({
     updateUser({ ...user, favorites: newFavorites });
 
     try {
-      await fetch(`http://localhost:3001/api/users/${user.email}`, {
+      await fetch(`https://yuyariy-backend-production.up.railway.app/api/users/${user.email}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ favorites: newFavorites }),
@@ -81,7 +81,7 @@ export function ArticleCard({
     updateUser({ ...user, history: newHistory });
 
     try {
-      await fetch(`http://localhost:3001/api/users/${user.email}`, {
+      await fetch(`https://yuyariy-backend-production.up.railway.app/api/users/${user.email}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ history: newHistory }),

@@ -20,7 +20,7 @@ export default function RegisterPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3001/users/auth/register", {
+      const res = await fetch("https://yuyariy-backend-production.up.railway.app/users/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
