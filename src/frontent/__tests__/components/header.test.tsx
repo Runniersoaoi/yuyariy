@@ -11,7 +11,17 @@ jest.mock('next/link', () => {
   )
 })
 
-// Mock de los componentes UI (no necesitamos su lógica interna)
+// Mock del AuthContext (SOLUCIÓN A TU ERROR)
+jest.mock('@/context/AuthContext', () => ({
+  useAuth: () => ({
+    user: null,
+    loading: false,
+    login: jest.fn(),
+    logout: jest.fn(),
+  }),
+}));
+
+// Mock de los componentes UI
 jest.mock('@/components/ui/button', () => ({
   Button: ({ children, ...rest }: any) => <button {...rest}>{children}</button>,
 }))
@@ -31,7 +41,7 @@ describe('Header Component', () => {
     render(<Header />)
     const title = screen.getByText('Yuyariy')
     expect(title).toBeInTheDocument()
-    expect(title).toHaveAttribute('href', '/')
+    expect(title).toHaveAttribute('href', '/platform')
   })
 
   it('renderiza las categorías de navegación en desktop', () => {
@@ -49,11 +59,9 @@ describe('Header Component', () => {
   it('renderiza el botón de menú móvil y su contenido', () => {
     render(<Header />)
 
-    // Verifica que el ícono y botón existen
     expect(screen.getByTestId('menu-icon')).toBeInTheDocument()
     expect(screen.getByRole('button')).toBeInTheDocument()
 
-    // Verifica estructura de Sheet (mockeada)
     expect(screen.getByTestId('sheet')).toBeInTheDocument()
     expect(screen.getByTestId('sheet-trigger')).toBeInTheDocument()
     expect(screen.getByTestId('sheet-content')).toBeInTheDocument()

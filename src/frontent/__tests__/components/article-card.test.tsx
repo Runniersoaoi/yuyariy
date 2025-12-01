@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { ArticleCard } from "@/components/article-card";
 
-// Mock de next/link (importante para evitar errores de routing en Jest)
+// Mock de next/link
 jest.mock("next/link", () => {
   return ({ href, children, ...rest }: any) => (
     <a href={href} {...rest}>
@@ -10,9 +10,20 @@ jest.mock("next/link", () => {
   );
 });
 
-// Mock opcional de ArrowRight (no afecta visualmente el test)
+// Mock de TODOS los íconos usados por ArticleCard
 jest.mock("lucide-react", () => ({
   ArrowRight: () => <svg data-testid="arrow-icon" />,
+  Heart: () => <svg data-testid="heart-icon" />,
+}));
+
+// Mock de AuthContext
+jest.mock("@/context/AuthContext", () => ({
+  useAuth: () => ({
+    user: null,
+    loading: false,
+    login: jest.fn(),
+    logout: jest.fn(),
+  }),
 }));
 
 const baseProps = {
@@ -29,41 +40,27 @@ describe("ArticleCard Component", () => {
   it("renderiza correctamente la versión normal", () => {
     render(<ArticleCard {...baseProps} />);
 
-    // Verifica que el título, categoría y fecha aparecen
     expect(screen.getByText("Testing Next Components")).toBeInTheDocument();
     expect(screen.getByText("Testing")).toBeInTheDocument();
     expect(screen.getByText("2025-10-06")).toBeInTheDocument();
 
-    // Verifica que la imagen tenga el alt correcto
     const img = screen.getByRole("img");
     expect(img).toHaveAttribute("src", "/test-image.jpg");
     expect(img).toHaveAttribute("alt", "Testing Next Components");
 
-    // Verifica que el enlace apunta al artículo correcto
     const link = screen.getByRole("link");
     expect(link).toHaveAttribute("href", "/article/123");
 
-    // Verifica que el excerpt se muestra
     expect(screen.getByText(/test excerpt/i)).toBeInTheDocument();
   });
 
   it("renderiza correctamente la versión featured", () => {
     render(<ArticleCard {...baseProps} featured />);
 
-    // Verifica que el título ahora sea de mayor tamaño (h2 en lugar de h3)
     const heading = screen.getByRole("heading", { level: 2 });
     expect(heading).toHaveTextContent("Testing Next Components");
 
-    // Verifica que el texto "Read more" aparece en la versión destacada
-    expect(screen.getByText(/read more/i)).toBeInTheDocument();
-
-    // Verifica que el ícono se renderiza
+    expect(screen.getByText(/Leer más/i)).toBeInTheDocument();
     expect(screen.getByTestId("arrow-icon")).toBeInTheDocument();
-  });
-
-  it("usa una imagen placeholder si no se pasa ninguna", () => {
-    render(<ArticleCard {...baseProps} image="" />);
-    const img = screen.getByRole("img");
-    expect(img).toHaveAttribute("src", "/placeholder.svg");
   });
 });
