@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${playfair.variable}`}>
         <AuthProvider>
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          <Suspense fallback={<div>Cargando...</div>}>{children}</Suspense>
           <Analytics />
         </AuthProvider>
       </body>

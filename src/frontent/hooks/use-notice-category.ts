@@ -11,6 +11,7 @@ interface Elemento {
   creation_date: string;
   image: string;
   inclinacion: string;
+  explicacion_inclinacion: string;
 }
 
 interface GroupNotice {

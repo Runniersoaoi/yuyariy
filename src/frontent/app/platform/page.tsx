@@ -11,7 +11,7 @@ export default function PlatformPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading articles...</p>
+        <p className="text-muted-foreground">Cargando Artículos...</p>
       </div>
     );
   }

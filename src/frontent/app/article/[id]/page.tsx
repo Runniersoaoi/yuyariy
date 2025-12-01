@@ -7,23 +7,27 @@ import { useParams } from "next/navigation";
 import { useClusterNotices } from "@/hooks/use-notice-cluster";
 import * as Tabs from "@radix-ui/react-tabs";
 import * as Separator from "@radix-ui/react-separator";
+import * as Dialog from "@radix-ui/react-dialog";
+import { useState } from "react";
 import { renderMedia } from "@/helpers/renderMedia";
 import BiasDistribution from "@/components/bias-distribution";
-
-// enum Newspapers {
-//   eltiempo = "/eltiempo-logo-corto.jpg",
-//   exitosa = "/exitosa-logo-corto.png",
-//   diariocorreo = "/diariocorreo-logo-corto.png",
-//   elcomercio = "/elcomercio-logo-corto.png",
-//   larepublica = "/larepublica-logo-corto.png",
-//   panamericana = "/panamericana-logo-corto.png",
-//   peru21 = "/peru21-logo-corto.png",
-//   rpp = "/rpp-logo-corto.png",
-// }
 
 export default function ArticlePage() {
   const { id } = useParams();
   const { data: articles, loading, error } = useClusterNotices(id as string);
+
+  // --------------------------
+  // ESTADO PARA EL MODAL
+  // --------------------------
+  const [open, setOpen] = useState(false);
+  const [explicacion, setExplicacion] = useState("");
+
+  const abrirExplicacion = (texto: string) => {
+    setExplicacion(texto);
+    setOpen(true);
+  };
+
+  // --------------------------
 
   if (loading) {
     return (
@@ -60,6 +64,7 @@ export default function ArticlePage() {
   const centerInclination = articles[0].elementos.filter((elemento) =>
     elemento.inclinacion.includes("centro")
   );
+
   const rigthPercentage = Math.round(
     (rigthInclination.length / articles[0].elementos.length) * 100
   );
@@ -74,8 +79,9 @@ export default function ArticlePage() {
     <div className="min-h-screen">
       <Header />
 
+      {/* --- CONTENIDO ORIGINAL --- */}
       <article className="container mx-auto px-4 py-12 max-w-7xl flex flex-col gap-10 lg:flex-row">
-        <div className="lg:w-9/12 w-full">
+       <div className="lg:w-9/12 w-full">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
             <Link href="/" className="hover:text-foreground transition-colors">
@@ -146,15 +152,15 @@ export default function ArticlePage() {
               value="izquierda"
               className="prose prose-lg max-w-none"
             >
-              <p>{article.resumen_izquierda}</p>
+              <p>{article.resumen_izquierda ? article.resumen_izquierda : "No se encontro suficiente covertura para mostrar el resumen"}</p>
             </Tabs.Content>
 
             <Tabs.Content value="centro" className="prose prose-lg max-w-none">
-              <p>{article.resumen_centro}</p>
+              <p>{article.resumen_centro ? article.resumen_centro : "No se encontro suficiente covertura para mostrar el resumen"}</p>
             </Tabs.Content>
 
             <Tabs.Content value="derecha" className="prose prose-lg max-w-none">
-              <p>{article.resumen_derecha}</p>
+              <p>{article.resumen_derecha ? article.resumen_derecha : "No se encontro suficiente covertura para mostrar el resumen"}</p>
             </Tabs.Content>
           </Tabs.Root>
 
@@ -187,7 +193,9 @@ export default function ArticlePage() {
             />
           </div>
         </section>
+
       </article>
+
       <div className="max-w-7xl mx-auto px-4">
         <Separator.Root decorative className="mb-10 h-px w-8/12 bg-border" />
 
@@ -198,7 +206,6 @@ export default function ArticlePage() {
           </h2>
 
           <Tabs.Root defaultValue="all" className="w-full">
-            {/* Tabs de filtros */}
             <Tabs.List className="flex gap-4 border-b border-border mb-6">
               <Tabs.Trigger
                 value="all"
@@ -208,7 +215,6 @@ export default function ArticlePage() {
               </Tabs.Trigger>
             </Tabs.List>
 
-            {/* Contenido de cada tab */}
             <Tabs.Content value="all" className="space-y-6">
               {articles.map((notice, idx) => (
                 <div key={idx} className="space-y-4">
@@ -218,19 +224,45 @@ export default function ArticlePage() {
                       className="p-4 border rounded-lg bg-card shadow-sm flex flex-col gap-2"
                     >
                       {/* Diario */}
-                      <p>{new URL(el.link).hostname}</p>
+                      <div className="flex gap-2 justify-between w-full">
+                        <p>{new URL(el.link).hostname}</p>
 
-                      {/* Título */}
+                        <div className="flex gap-2">
+                          <p
+                            className={`px-2 rounded text-white ${
+                              el.inclinacion === "izquierda"
+                                ? "bg-red-900"
+                                : el.inclinacion === "derecha"
+                                ? "bg-blue-900"
+                                : "bg-gray-500"
+                            }`}
+                          >
+                            {el.inclinacion}
+                          </p>
+
+                          {/* ---------------------
+                              BOTÓN PARA MOSTRAR EXPLICACIÓN
+                           ---------------------- */}
+                          <p
+                            onClick={() =>
+                              abrirExplicacion(el.explicacion_inclinacion || "Sin explicación disponible")
+                            }
+                            className="hover:cursor-pointer hover:underline text-white bg-green-900 rounded px-2"
+                          >
+                            Explicar Inclinación
+                          </p>
+                          {/* --------------------------------------------- */}
+                        </div>
+                      </div>
+
                       <h3 className="text-lg font-semibold">
                         {el.title.replace(/-/g, " ")}
                       </h3>
 
-                      {/* Resumen central por defecto */}
                       <p className="text-muted-foreground text-sm">
-                        2025-10-01
+                        {el.creation_date}
                       </p>
 
-                      {/* Link */}
                       <a
                         href={el.link}
                         target="_blank"
@@ -247,6 +279,34 @@ export default function ArticlePage() {
           </Tabs.Root>
         </section>
       </div>
+
+      {/* ---------------------------------------------
+          MODAL (Radix UI Dialog)
+      --------------------------------------------- */}
+      <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="bg-black/50 fixed inset-0" />
+          <Dialog.Content className="fixed left-1/2 top-1/2 w-[90%] max-w-lg -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-neutral-900 p-6 rounded-lg shadow-xl">
+            <Dialog.Title className="text-xl font-semibold mb-4">
+              Explicación de la inclinación
+            </Dialog.Title>
+
+            <p className="text-sm leading-relaxed whitespace-pre-line">
+              {explicacion}
+            </p>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-primary text-white"
+              >
+                Cerrar
+              </button>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </div>
   );
 }
+
