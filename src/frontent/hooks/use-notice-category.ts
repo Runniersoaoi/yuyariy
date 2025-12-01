@@ -61,7 +61,7 @@ export function useCategoryNotices(categoryName: string) {
     try {
       dispatch({ type: "FETCH_START" });
       const res = await fetch(
-        `http://localhost:3001/groupnotices/category/${categoryName}`,
+        `https://yuyariy-backend-production.up.railway.app/groupnotices/category/${categoryName}`,
         {
           cache: "no-store",
         }

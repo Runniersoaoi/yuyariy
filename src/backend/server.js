@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://yuyariy-frontend-production.up.railway.app",
   credentials: true,
 }));
 app.use(express.json());
