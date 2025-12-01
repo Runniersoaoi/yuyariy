@@ -224,7 +224,7 @@ export default function ArticlePage() {
                       className="p-4 border rounded-lg bg-card shadow-sm flex flex-col gap-2"
                     >
                       {/* Diario */}
-                      <div className="flex gap-2 justify-between w-full">
+                      <div className="flex  flex-col md:flex-row gap-2 justify-between w-full">
                         <p>{new URL(el.link).hostname}</p>
 
                         <div className="flex gap-2">
